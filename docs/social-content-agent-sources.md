@@ -1,5 +1,47 @@
 # Social Content Agent: content provenance
 
+## Account-isolation check — September 9, 2026
+
+The owner signed into their second account (B). Its library was empty and did not list account A's disposable draft `4537c072-ecf9-48c7-a381-690e087f8eb4`. Opening that exact URL in a fresh tab returned Draft unavailable / Draft not found. Saving a changed test string from A's previously opened editor returned Save failed: Draft not found. Refreshing its activity showed no events. A service-role read limited to the two test IDs confirmed A's original content was unchanged and both test drafts have different owner IDs.
+
+B's own draft was successfully created through the UI: `6630f41e-0c78-483d-989f-c9e6abb8be15`, topic `Disposable account-isolation verification B — 2026-09-09`. After the owner signed back into A, opening B's exact URL in a fresh tab also returned Draft unavailable / Draft not found. A fresh tab could still open A's own draft, with the original content and only its creation event.
+
+The retained B editor had been navigated to the library during the account switch, so the reverse-direction stale-editor save was not exercised. Do not claim both-direction write coverage. Both accounts successfully accessed their own test drafts; the two owner IDs were independently confirmed different. User-entered sign-ins restored working sessions, but signup, password recovery, and other authentication paths were not tested.
+
+A final service-role read confirmed both test contents unchanged and both statuses draft. Cleanup removed exactly the two disposable IDs after checking their contents and test-topic prefix. Follow-up reads found zero matching drafts and zero matching activity events. No test schedules remain.
+
+Observed UI limitation: an already-open editor retains previously loaded draft text after an account switch. Its save was rejected by the server, but the cached content was not cleared automatically. Fresh direct navigation did not expose that content. These are deployed application checks, not a comprehensive direct RLS policy test.
+
+Follow-up local fix: `app/components/PrivateSessionBoundary.tsx` wraps both the drafts layout (library, new draft, and editor) and the brand-voice layout. Private pages wait for the initial auth event, unmount on sign-out, and remount when the user identity changes. Same-user token refreshes preserve unsaved work. A revision counter also resets a batched sign-out/sign-in to the same account. Five regression tests exercise the actual draft editor behind this boundary, including a late previous-account response. This change has not been deployed or verified in the live browser; the observations above describe the deployed version before the fix.
+
+## Deployed publisher check — September 9, 2026
+
+A disposable draft (`4fc6c880-e3f3-4350-9134-df2602642201`) was created and approved through the deployed UI, then scheduled for 09:07 America/Los_Angeles (16:07 UTC). A service-role preflight found no existing scheduled drafts; subsequent preflights prevented manually triggering the global job if any other scheduled draft appeared.
+
+- Authenticated POST to the deployed publisher at 16:06:28 UTC returned HTTP 200 and publishedCount 0 before the due time.
+- Authenticated POST at 16:07:28 UTC returned HTTP 200 and publishedCount 1, with only the test ID.
+- Authenticated GET at 16:07:54 UTC returned HTTP 200 and publishedCount 0. The test record had status published and exactly one draft_published event, alongside creation, approval, and scheduling events.
+- Reopening the UI showed the simulated published record, read-only text, and the publication activity event.
+- Cleanup deleted only the exact test ID and topic through the database API; one record was removed and zero test events remained.
+
+These results verify manual execution of the deployed job before and after a due time and a sequential repeat. They do not verify Vercel's automatic daily trigger, overlapping runs, or failure recovery. Service-role reads here are verification of job effects, not proof of user-facing row-level security. No social-network posts were sent.
+
+The remaining account-isolation check requires the owner's second account and is not yet verified. Account A's unscheduled disposable draft is `4537c072-ecf9-48c7-a381-690e087f8eb4`, topic `Disposable account-isolation verification A — 2026-09-09`. It remains temporarily for the test and must be cleaned up afterward. The owner confirmed a second account is available; the browser is paused at sign-in. The original editor tab is retained to test whether a stale editor can save under a different session, alongside a fresh direct-URL access check.
+
+## Live workflow check — September 9, 2026
+
+The historical review notes below are superseded for the specific live behaviors tested here. Browser verification used https://social-content-agent-pi.vercel.app in an existing signed-in session; fresh sign-in was not exercised.
+
+- One real Generate with AI request returned editable text for a clearly labeled disposable workflow test.
+- Create draft saved record `417d95ab-31cc-45ef-bee6-441d6d97a788` and showed a creation event.
+- Approval succeeded. Scheduling for September 10 at noon displayed that same local time and added approval and scheduling events.
+- Editing the scheduled text and saving returned the record to draft and removed the pending schedule. Navigating to the library and reopening the record confirmed the edited text, draft status, and four activity events persisted.
+- The disposable record was deleted afterward. The library count fell from 14 to 13 and the test item was absent. No test schedule remains.
+
+This verifies a single-user deployed workflow through the UI, not every integration property. Fresh sign-in, brand-voice changes, cross-user access policies, concurrency, quota boundaries, timestamp-trigger correctness, and background-job execution remain untested. The UI displayed minute-resolution timestamps, so this check cannot establish automatic updated_at behavior. Existing published records are not evidence that this review exercised the publisher. No social-network post was sent, and no hosted SQL or deployment configuration was changed.
+
+The case-study evidence and architecture caption now distinguish these live results from the remaining checks. The case study remains a draft pending final owner review.
+
 Reviewed September 8, 2026. Local source: `C:/Users/admin/Development/social-content-agent`. Clean source checkout at `c68bd8d2f28480145c75fcebc7961bc2f97a08d5`. No application source edits or live data mutations were made.
 
 ## Owner account incorporated

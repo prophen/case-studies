@@ -18,7 +18,7 @@ cover: /case-studies/social-content-agent/draft-dashboard.png
 coverAlt: Social Content Agent draft library showing topic cards and filters for draft, approved, scheduled, and simulated published states.
 coverWidth: 1802
 coverHeight: 1503
-coverCaption: Existing README screenshot. Published labels describe simulated publication, not posts sent to a social network.
+coverCaption: The draft library, from an earlier version of the app. Published items reflect the simulation; no posts were sent to a social network.
 links:
   live: https://social-content-agent-pi.vercel.app
   source: https://github.com/prophen/social-content-agent
@@ -36,39 +36,39 @@ Social Content Agent was my first real Next.js app and my starting point for bui
 
 I built the first version with guidance from Perplexity. It gave me the code and instructions for setting up Supabase and Vercel. I followed those instructions to put the app together; I did not write any of the code.
 
-Through that process, I learned about the structure of a Next.js application and the separation between client and server. I still want a deeper understanding of the code and more confidence making additions independently.
+This was my introduction to how a Next.js application is organized and how work is divided between client and server.
 
-<Callout title="Reading this case study">
-The account of the first build comes from my experience. The workflow and technical details below come from a later review of the repository at commit c68bd8d. They describe that version of the code, including features that may have been added after the first build.
+<Callout title="About this version">
+The first-build account is my own. The technical walkthrough comes from a later source review, so it includes the app's subsequent development. Source links identify the version reviewed.
 </Callout>
 
 ## Following the workflow
 
-The application keeps a person involved from the initial topic through approval and scheduling.
+An idea moves through three stages, with the user choosing when to move it forward.
 
 <WorkflowSteps>
-  <Step title="Generate a starting point">A signed-in user enters a topic. The server combines it with saved brand-voice guidance and calls the OpenAI Responses API. The response returns as editable text.</Step>
+  <Step title="Generate a starting point">A signed-in user enters a topic. The app uses their brand-voice settings to generate a draft, then returns the text to an editor.</Step>
   <Step title="Review and approve">The user edits and saves the draft, then approves it. Changing approved content returns it to draft and clears its approval and pending schedule.</Step>
   <Step title="Schedule and track">An approved draft can be scheduled for a future time. A background job marks due drafts as published in the database and adds an activity event. Publication is simulated.</Step>
 </WorkflowSteps>
 
 <ProductImage src="/case-studies/social-content-agent/generated-draft.png" alt="New draft editor with a topic, Generate with AI button, editable draft text, and Create draft action." caption="Generated text is available for review before saving. This repository screenshot predates some current interface changes." width="1802" height="1260" />
 
-The reviewed version includes per-user brand-voice settings for audience, tone, goals, formatting, and accuracy guidance. Changes to these settings apply to future generations; existing drafts stay as they are.
+Brand-voice settings let each user specify an audience, tone, goals, formatting, and accuracy guidance. Updating these settings affects future generations without rewriting saved drafts.
 
 ## Under the surface
 
-Next.js provides the interface and server routes. The browser sends requests to those routes for generation and draft operations. Supabase supplies authentication and stored data, and the OpenAI Responses API supplies generated text.
+The editor runs in the browser. When someone asks for a draft, the browser sends the topic to a Next.js server route. That route checks the user's session and input, loads their brand voice, and calls the OpenAI Responses API. The text comes back to the editor for review.
 
-<ArchitectureDiagram src="/case-studies/social-content-agent/architecture.svg" alt="Application architecture connecting the Next.js interface to generation and draft routes, OpenAI, Supabase, and the simulated publisher." caption="Architecture reconstructed from source at commit c68bd8d. Live deployment behavior has not been verified." width="1000" height="500" description="Authenticated routes handle drafts and brand voice through Supabase and send generation requests to OpenAI. A separate cron route checks a bearer secret and uses a server-side admin client to process due drafts and record publication events. There is no social-network publishing call in that path." />
+Supabase handles authentication and stores drafts, preferences, and activity. A separate server route processes scheduled drafts for simulated publication.
 
-The generation route checks authentication, validates the topic, and checks recorded usage before calling the model. The database migrations define ownership policies for user data. A separate protected route handles simulated publication.
+<ArchitectureDiagram src="/case-studies/social-content-agent/architecture.svg" alt="Application architecture connecting the Next.js interface to generation and draft routes, OpenAI, Supabase, and the simulated publisher." caption="Architecture reconstructed from source at commit c68bd8d. The live draft workflow and a manual publisher run were checked separately; the automatic daily trigger remains unverified." width="1000" height="500" description="Authenticated routes handle drafts and brand voice through Supabase and send generation requests to OpenAI. A separate cron route checks a bearer secret and uses a server-side admin client to process due drafts and record publication events. There is no social-network publishing call in that path." />
 
-These are parts of the client/server separation I began learning about through this project. The code review helps make that structure visible, while live integration testing remains outstanding.
+This is a concrete example of the client/server separation I began learning about: editing happens in the browser, while generation requests and database operations go through server routes.
 
 ## Decisions visible in the code
 
-The later source review identified three implementation choices worth explaining. These observations describe how the code works; they are not a record of decisions I independently designed during the first build.
+Three details from the later source review help explain the workflow. Perplexity supplied the first version's code; the observations here describe the implementation, rather than decisions I independently designed.
 
 <Decision title="An edit clears the previous approval" why="Approval applies to the text that was reviewed. When that text changes, the update function returns the item to draft and clears approval and scheduling timestamps." tradeoff="Even an edit to a scheduled post requires another approval and schedule.">
 [updateDraft](https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/lib/drafts.ts) gives content changes precedence over status changes. [Workflow tests](https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/tests/drafts.test.ts) cover approval revocation and invalid transitions using mocked database queries. Concurrent live edits have not been tested in this review.
@@ -84,24 +84,30 @@ The [job route](https://github.com/prophen/social-content-agent/blob/c68bd8d2f28
 
 ## What the evidence says
 
-A later local review inspected commit c68bd8d and ran the repository's tests on September 8, 2026.
+The technical account is grounded in source review, local tests, and a September 9 check of the deployed app. Using one disposable draft in an existing signed-in session, the review followed real generation, saving, approval, scheduling, and editing.
 
 <Verification>
-  <Evidence title="Automated tests" status="verified" href="https://github.com/prophen/social-content-agent/tree/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/tests" result="npm test: 84 tests passed across 8 files.">Supabase and OpenAI are mocked. These results cover application logic and selected UI behavior, rather than live services or deployed publishing.</Evidence>
-  <Evidence title="Project screenshots" status="verified" href="https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/README.md" result="Two existing repository screenshots were retrieved and visually inspected.">They document earlier interface states and are not fresh captures of the current deployment.</Evidence>
-  <Evidence title="Live integration" status="not-run">The deployed URL is linked above. Signed-in behavior, live model requests, database policies, and cron execution have not been verified in this review.</Evidence>
+  <Evidence title="Application tests" status="verified" href="https://github.com/prophen/social-content-agent/tree/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/tests" result="84 tests passed at the September 8 source review.">These cover application logic and selected UI behavior with Supabase and OpenAI mocked.</Evidence>
+  <Evidence title="Migration checks" status="verified" href="https://github.com/prophen/social-content-agent/blob/6798cb0/tests/migrations.test.ts" result="7 additional database tests passed; 91 tests passed in the full suite after maintenance.">The migration tests execute SQL in disposable PostgreSQL databases with a minimal substitute for Supabase authentication.</Evidence>
+  <Evidence title="Project screenshots" status="verified" href="https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/README.md" result="Two existing repository screenshots were visually inspected.">They show earlier versions of the interface.</Evidence>
+  <Evidence title="Live draft workflow" status="verified" href="https://social-content-agent-pi.vercel.app" result="Generation, saving, approval, scheduling, and editing succeeded in the deployed app.">Editing the scheduled text returned it to draft and removed the pending schedule. Reopening the record confirmed the saved edit and creation, approval, scheduling, and update events.</Evidence>
+  <Evidence title="Deployed publisher" status="verified" href="https://social-content-agent-pi.vercel.app" result="A manual job run published one due test draft and recorded one publication event.">A run before the scheduled time processed zero drafts. Once due, the test draft became simulated published; a repeat run processed zero drafts and left one publication event. This verifies the deployed job endpoint, not Vercel's automatic daily trigger.</Evidence>
+  <Evidence title="Account access" status="verified" href="https://social-content-agent-pi.vercel.app" result="Two accounts were denied direct access to each other's test drafts.">Both accounts could access their own drafts. A save attempt from the second account against the first account's previously opened draft was rejected, and the stored text stayed unchanged. These application checks do not establish complete database-policy coverage.</Evidence>
+  <Evidence title="Remaining live checks" status="not-run">Direct database-policy coverage, reverse-direction cross-account saving, brand-voice changes, concurrent requests, and Vercel's automatic daily trigger were not tested in these checks.</Evidence>
 </Verification>
 
-The review also found limits to address. The generation quota uses a separate count and recording step, which can weaken enforcement under concurrent requests. At the reviewed commit, the checked-in migrations omitted the approval timestamp column. I confirmed that the field already exists in my hosted database; the gap was in the repository's migration history.
+The review found a gap between the checked-in migrations and my hosted database: the approval timestamp field already existed online but was missing from the migration history. A [follow-up migration](https://github.com/prophen/social-content-agent/blob/6798cb0/supabase/migrations/20260909010000_complete_draft_timestamps.sql) now includes it for fresh setups and adds automatic modification timestamps. It was tested locally; this review has not applied it to the hosted database or checked existing timestamp triggers.
 
-A subsequent maintenance pass added a forward migration for reproducible setup, including approval and automatic modification timestamps. Seven PostgreSQL migration tests cover fresh setup, existing-schema upgrades, record preservation, and draft ownership rules; the complete local suite passes 91 tests. These changes are committed in the repository. This review has not applied them to the hosted database or inspected its existing timestamp triggers, and the tests use a minimal substitute for Supabase's authentication environment.
+One limitation still worth addressing is the generation quota. Counting requests and recording usage happen separately, so simultaneous requests can weaken enforcement.
+
+The account-switching check also exposed an interface issue: an already-open editor kept displaying previously loaded draft text after the account changed. The server rejected a save, and opening the other account's draft in a fresh tab was denied. A follow-up local fix now resets private page state when the account changes, with regression tests for account switches and late responses. The fix has not yet been deployed or rechecked online.
 
 A [walkthrough is linked in the repository](https://youtu.be/HWN_2BmjthY); its contents and captions still need review.
 
 ## What this first version represents
 
 <ResultsOrLearnings>
-This project gave me a starting point for working with AI as an engineer. I followed guidance to build my first real Next.js app and learned about its structure and the separation between client and server. The result was smaller than the agent I had imagined, but it was an application with AI integrated around a need I actually had.
+I set out to build something that could create and post social content for me. I finished this first version with a narrower workflow and an introduction to Next.js, Supabase, and Vercel. Learning how the app is structured—and how the client and server work together—was a concrete step toward working with AI as an engineer.
 
-Since then, I have moved on to coding with Codex and my Hermes coding-bot. My next goal is to understand the code better and feel able to make additions independently.
+Since then, I have moved on to coding with Codex and my Hermes coding-bot. I want to understand more of the code I am working with and feel able to make additions independently. That is the next step for me.
 </ResultsOrLearnings>
