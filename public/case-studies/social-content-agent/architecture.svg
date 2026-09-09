@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500" role="img" aria-labelledby="title desc">
+<title id="title">Social Content Agent architecture</title><desc id="desc">Next.js UI calls authenticated generation and draft routes. Those routes use OpenAI and Supabase. A protected cron publisher uses Supabase without calling a social publishing provider.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="none" stroke="#315f88" stroke-width="1.2"/></marker></defs>
+<rect width="1000" height="500" fill="#f5f1e8"/>
+<g font-family="Arial,sans-serif" fill="#1c2029">
+<text x="35" y="38" font-size="14" fill="#315f88" letter-spacing="2">THE CODE PATH / USER-DRIVEN GENERATION</text>
+<g stroke="#aaa99f" fill="#fbfaf6"><rect x="35" y="84" width="225" height="122" rx="4"/><rect x="365" y="84" width="270" height="122" rx="4"/><rect x="735" y="84" width="230" height="122" rx="4"/><rect x="365" y="316" width="270" height="126" rx="4"/><rect x="735" y="316" width="230" height="126" rx="4"/></g>
+<text x="55" y="118" font-size="22" font-weight="bold">Next.js interface</text><text x="55" y="151" font-size="17">Generate · edit · approve</text><text x="55" y="178" font-size="17">Schedule · view activity</text>
+<text x="385" y="118" font-size="22" font-weight="bold">Authenticated routes</text><text x="385" y="151" font-size="17">Drafts + brand voice</text><text x="385" y="178" font-size="17">Generation + usage check</text>
+<text x="755" y="118" font-size="22" font-weight="bold">OpenAI</text><text x="755" y="151" font-size="17">Responses API</text><text x="755" y="178" font-size="17">Returns draft text</text>
+<text x="385" y="350" font-size="22" font-weight="bold">Supabase</text><text x="385" y="382" font-size="17">Auth + Postgres</text><text x="385" y="409" font-size="17">Drafts · events · preferences</text>
+<text x="755" y="350" font-size="20" font-weight="bold">Protected cron route</text><text x="755" y="382" font-size="17">Processes due drafts</text><text x="755" y="409" font-size="17">Records publication events</text>
+<g fill="none" stroke="#315f88" stroke-width="2" marker-end="url(#arrow)"><path d="M260 145H356"/><path d="M635 145H726"/><path d="M500 206V307"/><path d="M735 380H644"/></g>
+<text x="516" y="265" font-size="15" fill="#315f88">Session client</text>
+<path d="M850 270V306" fill="none" stroke="#315f88" stroke-width="2" marker-end="url(#arrow)"/><text x="745" y="251" font-size="16" fill="#315f88">Vercel Cron · secret check</text>
+<text x="35" y="364" font-size="19" fill="#98442e">Publishing is simulated.</text><text x="35" y="393" font-size="16">No LinkedIn publishing call</text><text x="35" y="419" font-size="16">in this implementation.</text>
+<text x="35" y="478" font-size="14" fill="#545751">Source review: c68bd8d · configuration and code structure, not live deployment verification</text>
+</g></svg>

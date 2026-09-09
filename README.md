@@ -24,9 +24,9 @@ See [the authoring guide](docs/authoring-case-studies.md) and `content/templates
 
 ## Publication status
 
-The first Social Content Agent study is intentionally draft. Its text is proposed narrative, its workflow graphic is a labeled concept, and publishing is simulated. No project source, real screenshots, demo, architecture, role, timeline, or implementation results have been verified by this site work.
+The first Social Content Agent study is intentionally draft. It now includes the owner's account of the original ambition, inspected source, two existing project screenshots, a source-derived architecture diagram, and a fresh isolated test result (84 tests passing with mocked services). Publishing is simulated. Role details, personal decision history, final wording, live integration, and video contents remain unverified. See [content provenance](docs/social-content-agent-sources.md).
 
-Drafts render only in development. Production returns 404 for their URLs and excludes them from the homepage and sitemap. Publication requires reviewed evidence and a real cover. No canonical domain is invented: set `SITE_URL` to an owner-confirmed HTTPS origin only before an approved release. With no origin configured, the site requests no indexing and emits an empty sitemap.
+Drafts render only in development. Production returns 404 for their URLs and excludes them from the homepage and sitemap. Publication requires reviewed evidence and a real cover. The confirmed production canonical origin is `https://work.nikema.dev`, used by default for canonical links, the sitemap, and the production robots sitemap URL. `SITE_URL` can explicitly override it if the owner changes domains. Local development requests no indexing.
 
 No remote repository or deployment has been created.
 

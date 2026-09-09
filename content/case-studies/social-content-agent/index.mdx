@@ -1,70 +1,107 @@
 ---
 slug: social-content-agent
 project: Social Content Agent
-title: The boundary between generation and action
-summary: Exploring where AI drafting ends and human judgment begins.
+title: An AI workflow before an AI agent
+summary: I set out to build an agent that could create and post social content. My first version became an AI-assisted workflow.
 draft: true
 featured: true
 order: 1
-scope: Publishing is simulated.
+stack:
+  - Next.js
+  - React
+  - TypeScript
+  - OpenAI Responses API
+  - Supabase
+scope: AI-assisted LinkedIn drafts. Publishing is simulated.
+projectStatus: Deployed
+cover: /case-studies/social-content-agent/draft-dashboard.png
+coverAlt: Social Content Agent draft library showing topic cards and filters for draft, approved, scheduled, and simulated published states.
+coverWidth: 1802
+coverHeight: 1503
+coverCaption: Existing README screenshot. Published labels describe simulated publication, not posts sent to a social network.
+links:
+  live: https://social-content-agent-pi.vercel.app
+  source: https://github.com/prophen/social-content-agent
 ---
 
 ## Where I started
 
-Generating a draft is one thing. Deciding whether it should become a published post is another.
+I wanted to start working with AI as an engineer, and I needed help creating social content. My idea was an agent that could create content and post it to a social channel.
 
-This case study explores the space between those two moments: the editing, review, and deliberate decisions that give a content workflow its shape.
+I was overly ambitious for a first project. What I built became an AI-assisted workflow: it generates LinkedIn drafts, lets a person review and approve them, and simulates scheduled publication. It does not independently create and post content for me.
 
-<Callout title="About these notes">
-This is a draft framing of Social Content Agent, based on the project handoff. The interface above is a concept illustration. The implementation, architecture, and decision rationale still need to be checked against the real project.
+Social Content Agent was my first real Next.js app and my starting point for building software with AI integrated.
+
+## How I built the first version
+
+I built the first version with guidance from Perplexity. It gave me the code and instructions for setting up Supabase and Vercel. I followed those instructions to put the app together; I did not write any of the code.
+
+Through that process, I learned about the structure of a Next.js application and the separation between client and server. I still want a deeper understanding of the code and more confidence making additions independently.
+
+<Callout title="Reading this case study">
+The account of the first build comes from my experience. The workflow and technical details below come from a later review of the repository at commit c68bd8d. They describe that version of the code, including features that may have been added after the first build.
 </Callout>
 
 ## Following the workflow
 
-The described workflow moves from AI-assisted drafting through human editing and approval to scheduling and activity history. The key question is where a person can inspect, change, or stop the next action.
+The application keeps a person involved from the initial topic through approval and scheduling.
 
 <WorkflowSteps>
-  <Step title="Start with a draft">Generate material that a person can work with, rather than treating the first response as a final post.</Step>
-  <Step title="Make room for judgment">Read, edit, and review the content before deciding whether it is ready.</Step>
-  <Step title="Choose what happens next">Approve and schedule deliberately. Publishing in the described version is simulated.</Step>
+  <Step title="Generate a starting point">A signed-in user enters a topic. The server combines it with saved brand-voice guidance and calls the OpenAI Responses API. The response returns as editable text.</Step>
+  <Step title="Review and approve">The user edits and saves the draft, then approves it. Changing approved content returns it to draft and clears its approval and pending schedule.</Step>
+  <Step title="Schedule and track">An approved draft can be scheduled for a future time. A background job marks due drafts as published in the database and adds an activity event. Publication is simulated.</Step>
 </WorkflowSteps>
 
-<Callout title="A deliberate boundary">
-Scheduling does not establish that a live social integration exists. This study will retain the simulated-publishing disclosure unless project evidence confirms a change.
-</Callout>
+<ProductImage src="/case-studies/social-content-agent/generated-draft.png" alt="New draft editor with a topic, Generate with AI button, editable draft text, and Create draft action." caption="Generated text is available for review before saving. This repository screenshot predates some current interface changes." width="1802" height="1260" />
+
+The reviewed version includes per-user brand-voice settings for audience, tone, goals, formatting, and accuracy guidance. Changes to these settings apply to future generations; existing drafts stay as they are.
 
 ## Under the surface
 
-The architecture needs to come from the actual code. A workflow sketch alone cannot tell us where state is stored, how approvals are enforced, or what happens when an operation fails.
+Next.js provides the interface and server routes. The browser sends requests to those routes for generation and draft operations. Supabase supplies authentication and stored data, and the OpenAI Responses API supplies generated text.
 
-Before this section is published, it needs a verified diagram and an explanation of how a draft moves through the system, including the checks that guard each transition.
+<ArchitectureDiagram src="/case-studies/social-content-agent/architecture.svg" alt="Application architecture connecting the Next.js interface to generation and draft routes, OpenAI, Supabase, and the simulated publisher." caption="Architecture reconstructed from source at commit c68bd8d. Live deployment behavior has not been verified." width="1000" height="500" description="Authenticated routes handle drafts and brand voice through Supabase and send generation requests to OpenAI. A separate cron route checks a bearer secret and uses a server-side admin client to process due drafts and record publication events. There is no social-network publishing call in that path." />
 
-## Decisions to examine
+The generation route checks authentication, validates the topic, and checks recorded usage before calling the model. The database migrations define ownership policies for user data. A separate protected route handles simulated publication.
 
-These are questions for the source review, not claims that the proposed safeguards have been implemented.
+These are parts of the client/server separation I began learning about through this project. The code review helps make that structure visible, while live integration testing remains outstanding.
 
-<Decision title="Where should human approval live?" why="An explicit approval step could make the boundary between suggestion and action easier to inspect." tradeoff="Another checkpoint adds friction. Its value depends on what it protects and whether people can understand it.">
-Unconfirmed. Inspect how approval is represented, who can change it, and whether editing approved content requires another review.
+## Decisions visible in the code
+
+The later source review identified three implementation choices worth explaining. These observations describe how the code works; they are not a record of decisions I independently designed during the first build.
+
+<Decision title="An edit clears the previous approval" why="Approval applies to the text that was reviewed. When that text changes, the update function returns the item to draft and clears approval and scheduling timestamps." tradeoff="Even an edit to a scheduled post requires another approval and schedule.">
+[updateDraft](https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/lib/drafts.ts) gives content changes precedence over status changes. [Workflow tests](https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/tests/drafts.test.ts) cover approval revocation and invalid transitions using mocked database queries. Concurrent live edits have not been tested in this review.
 </Decision>
 
-<Decision title="What does a simulation need to communicate?" why="A clear simulation label could let someone explore the workflow without confusing a scheduled item with a real published post." tradeoff="A simulation can demonstrate an interaction, but it cannot establish the reliability of a real publishing integration.">
-Unconfirmed. Review the actual scheduling interface and activity history, then document how simulated actions are labeled.
+<Decision title="History is stored separately from status" why="A draft's status shows where it is now. Separate activity events record actions such as creation, editing, approval, scheduling, and simulated publication." tradeoff="The state update and event write are separate operations. One can succeed while the other fails, leaving a gap in the history.">
+The [publisher](https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/lib/drafts.ts) rechecks scheduled status before updating rows and records events only for rows returned by the update. That reduces duplicate publication events on repeat runs, but does not make the whole operation atomic.
+</Decision>
+
+<Decision title="Publication stops at the simulation" why="The publisher updates database state and records activity, so the scheduling workflow can be explored without sending a post to a social network." tradeoff="Real publishing still needs account connection, provider authorization, token handling, and delivery-error handling.">
+The [job route](https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/app/api/jobs/publish-due-drafts/route.ts) requires a configured bearer secret. This describes the smaller scope the app reached; my original ambition included real posting.
 </Decision>
 
 ## What the evidence says
 
-The handoff provides a direction for the story. It does not include verified project assets or implementation test results.
+A later local review inspected commit c68bd8d and ran the repository's tests on September 8, 2026.
 
 <Verification>
-  <Evidence title="Real project screens and walkthrough" status="unconfirmed">Screenshots and a recorded demo have not been supplied with this handoff.</Evidence>
-  <Evidence title="Architecture and approval safeguards" status="unconfirmed">Requires a source review and an owner-confirmed explanation.</Evidence>
-  <Evidence title="Project tests and behavior" status="not-run">No Social Content Agent tests have been run as part of this case study.</Evidence>
+  <Evidence title="Automated tests" status="verified" href="https://github.com/prophen/social-content-agent/tree/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/tests" result="npm test: 84 tests passed across 8 files.">Supabase and OpenAI are mocked. These results cover application logic and selected UI behavior, rather than live services or deployed publishing.</Evidence>
+  <Evidence title="Project screenshots" status="verified" href="https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/README.md" result="Two existing repository screenshots were retrieved and visually inspected.">They document earlier interface states and are not fresh captures of the current deployment.</Evidence>
+  <Evidence title="Live integration" status="not-run">The deployed URL is linked above. Signed-in behavior, live model requests, database policies, and cron execution have not been verified in this review.</Evidence>
 </Verification>
 
-## The next questions
+The review also found limits to address. The generation quota uses a separate count and recording step, which can weaken enforcement under concurrent requests. At the reviewed commit, the checked-in migrations omitted the approval timestamp column. I confirmed that the field already exists in my hosted database; the gap was in the repository's migration history.
+
+A subsequent maintenance pass added a forward migration for reproducible setup, including approval and automatic modification timestamps. Seven PostgreSQL migration tests cover fresh setup, existing-schema upgrades, record preservation, and draft ownership rules; the complete local suite passes 91 tests. These changes are committed in the repository. This review has not applied them to the hosted database or inspected its existing timestamp triggers, and the tests use a minimal substitute for Supabase's authentication environment.
+
+A [walkthrough is linked in the repository](https://youtu.be/HWN_2BmjthY); its contents and captions still need review.
+
+## What this first version represents
 
 <ResultsOrLearnings>
-What did the first version make easy? Where did a person hesitate? Which decision changed after trying the workflow?
+This project gave me a starting point for working with AI as an engineer. I followed guidance to build my first real Next.js app and learned about its structure and the separation between client and server. The result was smaller than the agent I had imagined, but it was an application with AI integrated around a need I actually had.
 
-Those answers, together with real screens and source references, will turn this draft into an account of the work. There are no impact metrics or verified outcomes to report yet.
+Since then, I have moved on to coding with Codex and my Hermes coding-bot. My next goal is to understand the code better and feel able to make additions independently.
 </ResultsOrLearnings>

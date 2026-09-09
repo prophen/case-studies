@@ -16,6 +16,7 @@ export const caseStudySchema = z.object({
   scope: z.string().trim().min(1).optional(),
   cover: z.string().optional(),
   coverAlt: z.string().trim().min(1).optional(),
+  coverCaption: z.string().trim().min(1).optional(),
   coverWidth: z.number().int().positive().optional(),
   coverHeight: z.number().int().positive().optional(),
   evidenceReviewed: z.boolean().default(false),

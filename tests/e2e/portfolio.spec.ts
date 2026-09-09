@@ -7,6 +7,11 @@ for (const width of [320, 390, 768, 1440]) {
     for (const [route, name] of [['/', 'home'], ['/case-studies/social-content-agent', 'study']]) {
       await page.goto(route);
       await page.evaluate(() => document.fonts.ready);
+      for (const img of await page.locator('main img').all()) {
+        await img.scrollIntoViewIfNeeded();
+        await expect.poll(() => img.evaluate(element => (element as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+      }
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       await expect(page.locator('h1')).toHaveCount(1);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
       await page.screenshot({ path: `docs/screenshots/${name}-${width}.png`, fullPage: true });
@@ -24,11 +29,11 @@ test('navigation, anchors, disclosures, and keyboard focus work', async ({ page 
   await page.keyboard.press('Enter');
   await page.getByRole('link', { name: 'Open the field notes' }).click();
   await expect(page.getByText('A work in progress.', { exact: true })).toBeVisible();
-  const chapter = page.getByRole('navigation', { name: 'Case study chapters' }).getByRole('link', { name: /Decisions to examine/ });
+  const chapter = page.getByRole('navigation', { name: 'Case study chapters' }).getByRole('link', { name: /Decisions visible in the code/ });
   await chapter.click();
-  await expect(page).toHaveURL(/#decisions-to-examine$/);
-  await expect(page.locator('#decisions-to-examine')).toBeInViewport();
-  await expect(page.locator('#decisions-to-examine')).toBeFocused();
+  await expect(page).toHaveURL(/#decisions-visible-in-the-code$/);
+  await expect(page.locator('#decisions-visible-in-the-code')).toBeInViewport();
+  await expect(page.locator('#decisions-visible-in-the-code')).toBeFocused();
   const summary = page.locator('summary').first();
   await summary.focus(); await page.keyboard.press('Enter');
   await expect(page.locator('details').first()).toHaveAttribute('open', '');

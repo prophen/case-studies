@@ -2,12 +2,12 @@
 
 1. Create `content/case-studies/<slug>/` and copy `content/templates/case-study.mdx` into it as `index.mdx`. Choose a unique lowercase hyphenated slug.
 2. Fill in project, title, summary, and an explicit `draft: true`. Add optional role, stack (a YAML list), timeline, projectStatus, scope, order, and featured only when useful and confirmed. Never infer project maturity from evidence status.
-3. Put real media in `public/case-studies/<slug>/`. Add `cover`, `coverAlt`, `coverWidth`, and `coverHeight` to frontmatter. `cover` must start with `/case-studies/`. Draft media in public remains addressable by URL; do not put private or sensitive files there.
+3. Put real media in `public/case-studies/<slug>/`. Add `cover`, `coverAlt`, `coverWidth`, and `coverHeight` to frontmatter. Use optional `coverCaption` to explain provenance or scope on both the homepage and detail page. `cover` must start with `/case-studies/`. Draft media in public remains addressable by URL; do not put private or sensitive files there.
 4. Write level-two headings for chapters and level-three subheadings. The loader derives heading IDs and the navigation automatically. Duplicate IDs and broken local heading anchors are errors. Do not add a level-one heading.
 5. Compose the standard components below. Props use quoted strings, including dimensions. Imports, exports, JavaScript expressions, arbitrary HTML, inline styles, and unknown components are rejected. MDX is trusted local authoring material, never an upload or remote feed.
 6. Run `npm run validate:content`, then preview with `npm run dev`. Check narrow and wide layouts. Run the checks listed in README. No route or CSS changes are needed to add a study.
 7. Review claims, imagery, links, alt text, scope, and copy with the owner. Set `evidenceReviewed: true` and then `draft: false` only when approved. Published metadata requires a real cover. Production must be rebuilt after content changes.
-8. Configure the confirmed canonical origin through `SITE_URL` and request publication separately. No deployment is part of local authoring.
+8. The confirmed canonical origin defaults to `https://work.nikema.dev`; use `SITE_URL` only for an owner-approved domain change. Request publication separately. No deployment is part of local authoring.
 
 ## Components
 

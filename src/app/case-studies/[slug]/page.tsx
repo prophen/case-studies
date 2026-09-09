@@ -26,7 +26,7 @@ export default async function StudyPage({ params }: Props) {
     {study.draft && <aside className="draft-notice"><strong>A work in progress.</strong> Draft narrative · project evidence and final copy are still being reviewed.</aside>}
     <div className="study-layout"><CaseStudyNav chapters={study.chapters}/><article className="study-article">
       <header className="study-hero"><p className="eyebrow">{study.project} / Field notes</p><h1>{study.title}</h1><p className="study-summary">{study.summary}</p><ProjectFacts study={study}/><ProofLinks links={study.links}/></header>
-      {study.cover ? <figure className="study-cover"><Image src={study.cover} alt={study.coverAlt!} width={study.coverWidth!} height={study.coverHeight!} sizes="(max-width: 800px) 88vw, 1000px" priority/></figure> : study.draft && study.slug === 'social-content-agent' ? <WorkflowPreview/> : null}
+      {study.cover ? <figure className="study-cover"><Image src={study.cover} alt={study.coverAlt!} width={study.coverWidth!} height={study.coverHeight!} sizes="(max-width: 800px) 88vw, 1000px" priority/>{study.coverCaption && <figcaption>{study.coverCaption}</figcaption>}</figure> : study.draft && study.slug === 'social-content-agent' ? <WorkflowPreview/> : null}
       <div className="prose"><Content components={mdxComponents}/></div>
       <div className="study-end"><Link className="text-link" href="/#work">← Back to selected work</Link><span className="handwriting">More questions.<br/>Better next steps.</span></div>
     </article></div></main>;
