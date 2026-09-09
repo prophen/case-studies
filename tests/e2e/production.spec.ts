@@ -1,17 +1,19 @@
 import { expect, test } from '@playwright/test';
-test('production excludes drafts from the homepage and direct routes', async ({ page, request }) => {
+test('production includes the approved study without draft notices', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'The field notes are taking shape.' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Open the field notes' })).toHaveCount(0);
-  expect(await page.content()).not.toContain('social-content-agent');
-  const response = await request.get('/case-studies/social-content-agent');
-  expect(response.status()).toBe(404);
-  expect(await response.text()).not.toContain('An AI workflow before an AI agent');
+  await expect(page.getByRole('heading', { name: 'An AI workflow before an AI agent' })).toBeVisible();
+  await expect(page.locator('a[href="/case-studies/social-content-agent"]')).toBeVisible();
+  await expect(page.locator('.draft-badge')).toHaveCount(0);
+  const response = await page.goto('/case-studies/social-content-agent');
+  expect(response?.status()).toBe(200);
+  await expect(page.getByRole('heading', { level: 1, name: 'An AI workflow before an AI agent' })).toBeVisible();
+  await expect(page.locator('.draft-notice')).toHaveCount(0);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://work.nikema.dev/case-studies/social-content-agent');
 });
-test('sitemap and metadata use the confirmed domain and exclude drafts', async ({ request }) => {
+test('sitemap and metadata include the published study at the confirmed domain', async ({ request }) => {
   const sitemap = await request.get('/sitemap.xml');
   expect(sitemap.ok()).toBe(true);
-  expect(await sitemap.text()).not.toContain('social-content-agent');
+  expect(await sitemap.text()).toContain('<loc>https://work.nikema.dev/case-studies/social-content-agent</loc>');
   expect(await sitemap.text()).not.toContain('localhost');
   expect(await sitemap.text()).toContain('<loc>https://work.nikema.dev</loc>');
   const home = await request.get('/');

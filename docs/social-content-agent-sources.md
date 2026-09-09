@@ -1,5 +1,9 @@
 # Social Content Agent: content provenance
 
+## Publication approval — September 9, 2026
+
+After the final copy review and live verification, the owner explicitly requested publication. The study now has `draft: false` and `evidenceReviewed: true`, making it eligible for production routes, homepage listing, and sitemap inclusion. This approval does not change the documented limits of the technical checks. Earlier draft-status notes below describe previous review stages.
+
 ## Account-isolation check — September 9, 2026
 
 The owner signed into their second account (B). Its library was empty and did not list account A's disposable draft `4537c072-ecf9-48c7-a381-690e087f8eb4`. Opening that exact URL in a fresh tab returned Draft unavailable / Draft not found. Saving a changed test string from A's previously opened editor returned Save failed: Draft not found. Refreshing its activity showed no events. A service-role read limited to the two test IDs confirmed A's original content was unchanged and both test drafts have different owner IDs.
