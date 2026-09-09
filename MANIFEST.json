@@ -1,0 +1,135 @@
+{
+  "selected_design": "sketches/approved/",
+  "files": [
+    {
+      "path": "CODEX-PROMPT.md",
+      "bytes": 2347,
+      "sha256": "5415d2aa6bf7331ee3d11abf127f2a2e4219b80c7cd4666e42d52f7c30af49b6"
+    },
+    {
+      "path": "PRD.md",
+      "bytes": 16996,
+      "sha256": "00d00a6b543820b106401de0aa91455f9939465f60632caf1503a11404eac72c"
+    },
+    {
+      "path": "sketches/approved/case-study-full.png",
+      "bytes": 260768,
+      "sha256": "dbee4b7a7712e1970e289d04a818e802369643e2504e2446072a5c2ebb0036f3"
+    },
+    {
+      "path": "sketches/approved/case-study.html",
+      "bytes": 15487,
+      "sha256": "38ac3c92950ac2d3e501aa699e9f280a0280468cc9c6c745e466e9cd62e5b82e"
+    },
+    {
+      "path": "sketches/approved/checks.json",
+      "bytes": 119,
+      "sha256": "09e8b2f042ca87ac5c6e23de092ba956feb6cf29d1b8694b63fe7750258bb98f"
+    },
+    {
+      "path": "sketches/approved/components.png",
+      "bytes": 92476,
+      "sha256": "02df5451389a2836ac91764629e3e5fdb38944dc8601d8ae112d1164f6632341"
+    },
+    {
+      "path": "sketches/approved/homepage.png",
+      "bytes": 125413,
+      "sha256": "ab2e36268b9543ae14c157e8dd28d8cdcae308b309577cee7d7ae7cf8c95dbd5"
+    },
+    {
+      "path": "sketches/approved/index.html",
+      "bytes": 11434,
+      "sha256": "70674bc2fc84817ffb5e1bef85c6c7110d50727c775e9f80eeec58ba5f49dd39"
+    },
+    {
+      "path": "sketches/approved/README.md",
+      "bytes": 836,
+      "sha256": "815871aeba0d2bd6e35ba5d54d57b785e66151bef9c425e4e209f2d51eaf38f6"
+    },
+    {
+      "path": "sketches/archive/expressive-not-selected/case-study-top.png",
+      "bytes": 111927,
+      "sha256": "6e287a8ea9e991fa7e0c3a68a92c2761e812777cde405d594b8eff80078b15ac"
+    },
+    {
+      "path": "sketches/archive/expressive-not-selected/case-study.html",
+      "bytes": 22426,
+      "sha256": "5c12d2e190300d22f18dca3c644d435f8e529cfd7b2aea89a102787f51fd81e3"
+    },
+    {
+      "path": "sketches/archive/expressive-not-selected/case-study.png",
+      "bytes": 307380,
+      "sha256": "d124736d295423e323f8050346127f54009e86ae58a736a7028424cd3db97789"
+    },
+    {
+      "path": "sketches/archive/expressive-not-selected/checks.json",
+      "bytes": 119,
+      "sha256": "ddc440e0c727c566f41957aaa7b71f17a1b6724cc9c0cc24196f682eea637bcb"
+    },
+    {
+      "path": "sketches/archive/expressive-not-selected/homepage.png",
+      "bytes": 196932,
+      "sha256": "7ec4adb1702747c6c4c2c51f6e0a8868cc6e410e892c17e4a87caa856aa7f537"
+    },
+    {
+      "path": "sketches/archive/expressive-not-selected/index.html",
+      "bytes": 18838,
+      "sha256": "d6a896c50de59138a34de9103b940f1d274ba9ac5b78df2ad718eff20ccbd0f2"
+    },
+    {
+      "path": "sketches/archive/expressive-not-selected/README.md",
+      "bytes": 834,
+      "sha256": "ae792bec0cc4c16252e5589317aafaea5dbbe4a51dbc6d2966726fec3979ab4e"
+    },
+    {
+      "path": "sketches/archive/initial-directions/001-product-dossier/index.html",
+      "bytes": 5522,
+      "sha256": "29642ac5ab26a617155a5908157ee81667b2293dab8924850cc9747a6eafc3c7"
+    },
+    {
+      "path": "sketches/archive/initial-directions/001-product-dossier/preview.png",
+      "bytes": 77533,
+      "sha256": "fed875bcbdae90e2a2f8da272c034e7632e9a357c41288d7168818dd6c1a7b33"
+    },
+    {
+      "path": "sketches/archive/initial-directions/001-product-dossier/README.md",
+      "bytes": 433,
+      "sha256": "851f288763c87a2820873ed6fcdc1f049006b813c915e5f7b349806dac285aba"
+    },
+    {
+      "path": "sketches/archive/initial-directions/002-engineering-field-notes/index.html",
+      "bytes": 5637,
+      "sha256": "109e8751060bd894208d232ff7bb4dcee53c2f5349c0b1d14966d46657afb6f3"
+    },
+    {
+      "path": "sketches/archive/initial-directions/002-engineering-field-notes/preview.png",
+      "bytes": 77470,
+      "sha256": "0b7f2c12ca236755274bd6907b5902d201221267564b9c235bb38fc336f946bc"
+    },
+    {
+      "path": "sketches/archive/initial-directions/002-engineering-field-notes/README.md",
+      "bytes": 450,
+      "sha256": "090d4f08c39a25cbc84a7bb0b17b982e4e846d3f7e394bf1b4c3dd840224ad77"
+    },
+    {
+      "path": "sketches/archive/initial-directions/003-visual-product-story/index.html",
+      "bytes": 5138,
+      "sha256": "f037d4ad072f542c7e98c987a4bb1dd00373e54ebe89d7a9ab8e5db1c1d959d8"
+    },
+    {
+      "path": "sketches/archive/initial-directions/003-visual-product-story/preview.png",
+      "bytes": 107202,
+      "sha256": "38e40c14063f16a9e5e32e2c25d29aa7090cadbebc5e79472f29d710c9fdddd8"
+    },
+    {
+      "path": "sketches/archive/initial-directions/003-visual-product-story/README.md",
+      "bytes": 475,
+      "sha256": "6de1c3c7adf9f74a513a976575f03cb04732270b99b26f512793197f2a53cfde"
+    },
+    {
+      "path": "START-HERE.md",
+      "bytes": 2683,
+      "sha256": "c6fbe964782e063f570f77756480af059579899a25b7703c0c51f47736542c9f"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+---
+slug: social-content-agent
+project: Social Content Agent
+title: The boundary between generation and action
+summary: Exploring where AI drafting ends and human judgment begins.
+draft: true
+featured: true
+order: 1
+scope: Publishing is simulated.
+---
+
+## Where I started
+
+Generating a draft is one thing. Deciding whether it should become a published post is another.
+
+This case study explores the space between those two moments: the editing, review, and deliberate decisions that give a content workflow its shape.
+
+<Callout title="About these notes">
+This is a draft framing of Social Content Agent, based on the project handoff. The interface above is a concept illustration. The implementation, architecture, and decision rationale still need to be checked against the real project.
+</Callout>
+
+## Following the workflow
+
+The described workflow moves from AI-assisted drafting through human editing and approval to scheduling and activity history. The key question is where a person can inspect, change, or stop the next action.
+
+<WorkflowSteps>
+  <Step title="Start with a draft">Generate material that a person can work with, rather than treating the first response as a final post.</Step>
+  <Step title="Make room for judgment">Read, edit, and review the content before deciding whether it is ready.</Step>
+  <Step title="Choose what happens next">Approve and schedule deliberately. Publishing in the described version is simulated.</Step>
+</WorkflowSteps>
+
+<Callout title="A deliberate boundary">
+Scheduling does not establish that a live social integration exists. This study will retain the simulated-publishing disclosure unless project evidence confirms a change.
+</Callout>
+
+## Under the surface
+
+The architecture needs to come from the actual code. A workflow sketch alone cannot tell us where state is stored, how approvals are enforced, or what happens when an operation fails.
+
+Before this section is published, it needs a verified diagram and an explanation of how a draft moves through the system, including the checks that guard each transition.
+
+## Decisions to examine
+
+These are questions for the source review, not claims that the proposed safeguards have been implemented.
+
+<Decision title="Where should human approval live?" why="An explicit approval step could make the boundary between suggestion and action easier to inspect." tradeoff="Another checkpoint adds friction. Its value depends on what it protects and whether people can understand it.">
+Unconfirmed. Inspect how approval is represented, who can change it, and whether editing approved content requires another review.
+</Decision>
+
+<Decision title="What does a simulation need to communicate?" why="A clear simulation label could let someone explore the workflow without confusing a scheduled item with a real published post." tradeoff="A simulation can demonstrate an interaction, but it cannot establish the reliability of a real publishing integration.">
+Unconfirmed. Review the actual scheduling interface and activity history, then document how simulated actions are labeled.
+</Decision>
+
+## What the evidence says
+
+The handoff provides a direction for the story. It does not include verified project assets or implementation test results.
+
+<Verification>
+  <Evidence title="Real project screens and walkthrough" status="unconfirmed">Screenshots and a recorded demo have not been supplied with this handoff.</Evidence>
+  <Evidence title="Architecture and approval safeguards" status="unconfirmed">Requires a source review and an owner-confirmed explanation.</Evidence>
+  <Evidence title="Project tests and behavior" status="not-run">No Social Content Agent tests have been run as part of this case study.</Evidence>
+</Verification>
+
+## The next questions
+
+<ResultsOrLearnings>
+What did the first version make easy? Where did a person hesitate? Which decision changed after trying the workflow?
+
+Those answers, together with real screens and source references, will turn this draft into an account of the work. There are no impact metrics or verified outcomes to report yet.
+</ResultsOrLearnings>
