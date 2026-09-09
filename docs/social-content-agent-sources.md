@@ -12,7 +12,7 @@ A final service-role read confirmed both test contents unchanged and both status
 
 Observed UI limitation: an already-open editor retains previously loaded draft text after an account switch. Its save was rejected by the server, but the cached content was not cleared automatically. Fresh direct navigation did not expose that content. These are deployed application checks, not a comprehensive direct RLS policy test.
 
-Follow-up local fix: `app/components/PrivateSessionBoundary.tsx` wraps both the drafts layout (library, new draft, and editor) and the brand-voice layout. Private pages wait for the initial auth event, unmount on sign-out, and remount when the user identity changes. Same-user token refreshes preserve unsaved work. A revision counter also resets a batched sign-out/sign-in to the same account. Five regression tests exercise the actual draft editor behind this boundary, including a late previous-account response. This change has not been deployed or verified in the live browser; the observations above describe the deployed version before the fix.
+Follow-up fix (committed at 15544e90ef15372c97e22d2a12808d5c2a28331b): `app/components/PrivateSessionBoundary.tsx` wraps both the drafts layout (library, new draft, and editor) and the brand-voice layout. Private pages wait for the initial auth event, unmount on sign-out, and remount when the user identity changes. Same-user token refreshes preserve unsaved work. A revision counter also resets a batched sign-out/sign-in to the same account. Five regression tests exercise the actual draft editor behind this boundary, including a late previous-account response. All 96 application tests, lint, and typecheck passed. The owner subsequently reported pushing the fix and confirmed verification after receiving the two-tab sign-out/account-switch procedure. This is owner-reported live verification, not a second agent-observed browser run. The observations above describe the deployed version before the fix.
 
 ## Deployed publisher check — September 9, 2026
 
@@ -26,7 +26,7 @@ A disposable draft (`4fc6c880-e3f3-4350-9134-df2602642201`) was created and appr
 
 These results verify manual execution of the deployed job before and after a due time and a sequential repeat. They do not verify Vercel's automatic daily trigger, overlapping runs, or failure recovery. Service-role reads here are verification of job effects, not proof of user-facing row-level security. No social-network posts were sent.
 
-The remaining account-isolation check requires the owner's second account and is not yet verified. Account A's unscheduled disposable draft is `4537c072-ecf9-48c7-a381-690e087f8eb4`, topic `Disposable account-isolation verification A — 2026-09-09`. It remains temporarily for the test and must be cleaned up afterward. The owner confirmed a second account is available; the browser is paused at sign-in. The original editor tab is retained to test whether a stale editor can save under a different session, alongside a fresh direct-URL access check.
+The subsequent account-isolation check and cleanup are recorded above.
 
 ## Live workflow check — September 9, 2026
 
@@ -38,7 +38,7 @@ The historical review notes below are superseded for the specific live behaviors
 - Editing the scheduled text and saving returned the record to draft and removed the pending schedule. Navigating to the library and reopening the record confirmed the edited text, draft status, and four activity events persisted.
 - The disposable record was deleted afterward. The library count fell from 14 to 13 and the test item was absent. No test schedule remains.
 
-This verifies a single-user deployed workflow through the UI, not every integration property. Fresh sign-in, brand-voice changes, cross-user access policies, concurrency, quota boundaries, timestamp-trigger correctness, and background-job execution remain untested. The UI displayed minute-resolution timestamps, so this check cannot establish automatic updated_at behavior. Existing published records are not evidence that this review exercised the publisher. No social-network post was sent, and no hosted SQL or deployment configuration was changed.
+This verifies a single-user deployed workflow through the UI, not every integration property. At this stage, fresh sign-in, brand-voice changes, cross-user access, concurrency, quota boundaries, timestamp-trigger correctness, and background-job execution were untested. Later publisher and account checks are recorded above. The UI displayed minute-resolution timestamps, so this check cannot establish automatic updated_at behavior. Existing published records are not evidence that this review exercised the publisher. No social-network post was sent, and no hosted SQL or deployment configuration was changed.
 
 The case-study evidence and architecture caption now distinguish these live results from the remaining checks. The case study remains a draft pending final owner review.
 
@@ -50,9 +50,9 @@ Nikema described building it to start working with AI as an engineer and to meet
 
 ## Source evidence
 
-Additional owner clarification: the first version was built with guidance from Perplexity, and Nikema did not write any of the code. This is now stated explicitly in the case study. Do not attribute code authorship or independent implementation of the inspected safeguards to Nikema. The precise guided workflow and personal learning still need the owner's account.
+Additional owner clarification: the first version was built with guidance from Perplexity, and Nikema did not write any of the code. This is now stated explicitly in the case study. Do not attribute code authorship or independent implementation of the inspected safeguards to Nikema. Later owner clarifications below supply the guided workflow and personal learning.
 
-The owner further clarified that Perplexity supplied code and instructions for setting up Supabase and Vercel. The build-process section now records that concrete workflow. Troubleshooting, independent decisions, and lessons have not yet been described.
+The owner further clarified that Perplexity supplied code and instructions for setting up Supabase and Vercel. The build-process section now records that concrete workflow. The owner did not recall a specific troubleshooting example; the learning reflection follows below.
 
 Subsequent learning reflection: this was the owner's first real Next.js app, through which they learned about Next.js structure and client/server separation. They have since moved to coding with Codex and their Hermes coding-bot. Their stated next goal is a better understanding of the code and confidence making additions independently. These reflections are now included in the closing section. Do not attribute the first version to those later tools or turn the independence goal into an already-achieved capability. No specific troubleshooting anecdote was recalled, so none was added.
 
@@ -75,19 +75,16 @@ Source repository link was taken from the configured Git remote and returned HTT
 
 The local demo thumbnail was inspected and found to be an illustration; it was not used as product imagery. No AI-generated product screen is presented as evidence.
 
-## Still awaiting owner input
+## Publication readiness
 
-The owner supplied `https://social-content-agent-pi.vercel.app` as the deployed application URL. It is now the live project link and the project status is Deployed. The web tool could not open the URL, so deployment functionality has not been independently checked. Deployment does not change the simulated-publishing scope or the case study's draft status.
+The deployed URL, first-build role, tool collaboration, learning, and next personal goal have been supplied by the owner. Live workflow, manual publisher, account-access checks, and owner verification of the session fix are recorded above. The linked walkthrough video remains unreviewed. Keep the study in draft until the owner approves publication.
 
-Personal reasoning behind specific implementation decisions, exact role and AI/tool collaboration, any desired timeline, final wording, intended next iteration, and any live deployment/demo review. Keep `draft: true` and `evidenceReviewed: false` until final owner review.
-
-This source review updates the content-readiness statements in the original site verification report: source and two existing screenshots are now available and the isolated project tests have now been run. Live integration remains unverified.
-
+Final editorial pass: updated the test count to 96, linked the session fix to its commit, grouped follow-up findings under What testing changed, and removed stale pending-check notes. The original 84-test and later 91-test results below are historical checkpoints.
 
 ## Updated portfolio verification
 
 September 9 clarification: the owner confirmed that the hosted database already has approved_at. The discrepancy was in checked-in migration history. The migration work is now committed at 6798cb0, and the local branch matches its origin/main tracking reference. The earlier description below records its initially uncommitted state. No hosted SQL was applied by this review, and existing hosted timestamp triggers have not been inspected. README, migration guidance, and case-study copy now reflect this distinction.
 
-Follow-up maintenance after the source review: `social-content-agent/supabase/migrations/20260909010000_complete_draft_timestamps.sql` now adds nullable approved_at and a drafts updated_at trigger. This is an uncommitted local change after the pinned source snapshot, not part of c68bd8d or proof of a deployed schema change. Seven PGlite tests run real SQL against fresh and upgraded in-memory PostgreSQL databases with minimal Supabase auth substitutes. All 91 application tests, lint, and typecheck passed. The live database remains unchanged. The case-study note now distinguishes this follow-up fix from the original source-review finding.
+Follow-up maintenance after the source review: `social-content-agent/supabase/migrations/20260909010000_complete_draft_timestamps.sql` now adds nullable approved_at and a drafts updated_at trigger. This was subsequently committed at 6798cb0 after the pinned source snapshot; it is not part of c68bd8d or proof of a deployed schema change. Seven PGlite tests run real SQL against fresh and upgraded in-memory PostgreSQL databases with minimal Supabase auth substitutes. All 91 application tests, lint, and typecheck passed. The live database remains unchanged. The case-study note now distinguishes this follow-up fix from the original source-review finding.
 
 After integrating these assets and content, the portfolio tests passed (22 tests), lint passed, the production build passed, and all 9 browser checks passed in 34.2 seconds. Browser checks include actual image loading, responsive layouts, axe scans, keyboard navigation, and production draft exclusion. The new homepage screenshot was visually reviewed. Source checkout remained clean and matched origin/main.

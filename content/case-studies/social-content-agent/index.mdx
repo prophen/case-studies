@@ -84,11 +84,10 @@ The [job route](https://github.com/prophen/social-content-agent/blob/c68bd8d2f28
 
 ## What the evidence says
 
-The technical account is grounded in source review, local tests, and a September 9 check of the deployed app. Using one disposable draft in an existing signed-in session, the review followed real generation, saving, approval, scheduling, and editing.
+The technical account is grounded in source review, local tests, and September 9 checks of the deployed app. Disposable drafts were used to follow the workflow, exercise the simulated publisher, and check access between two accounts. All test drafts were removed afterward.
 
 <Verification>
-  <Evidence title="Application tests" status="verified" href="https://github.com/prophen/social-content-agent/tree/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/tests" result="84 tests passed at the September 8 source review.">These cover application logic and selected UI behavior with Supabase and OpenAI mocked.</Evidence>
-  <Evidence title="Migration checks" status="verified" href="https://github.com/prophen/social-content-agent/blob/6798cb0/tests/migrations.test.ts" result="7 additional database tests passed; 91 tests passed in the full suite after maintenance.">The migration tests execute SQL in disposable PostgreSQL databases with a minimal substitute for Supabase authentication.</Evidence>
+  <Evidence title="Application tests" status="verified" href="https://github.com/prophen/social-content-agent/tree/15544e90ef15372c97e22d2a12808d5c2a28331b/tests" result="96 tests passed after the account-switching fix; lint and typecheck also passed.">The suite includes five session-change regression tests and seven migration tests. Application tests mock Supabase and OpenAI; migration tests execute SQL in disposable PostgreSQL databases with a minimal substitute for Supabase authentication.</Evidence>
   <Evidence title="Project screenshots" status="verified" href="https://github.com/prophen/social-content-agent/blob/c68bd8d2f28480145c75fcebc7961bc2f97a08d5/README.md" result="Two existing repository screenshots were visually inspected.">They show earlier versions of the interface.</Evidence>
   <Evidence title="Live draft workflow" status="verified" href="https://social-content-agent-pi.vercel.app" result="Generation, saving, approval, scheduling, and editing succeeded in the deployed app.">Editing the scheduled text returned it to draft and removed the pending schedule. Reopening the record confirmed the saved edit and creation, approval, scheduling, and update events.</Evidence>
   <Evidence title="Deployed publisher" status="verified" href="https://social-content-agent-pi.vercel.app" result="A manual job run published one due test draft and recorded one publication event.">A run before the scheduled time processed zero drafts. Once due, the test draft became simulated published; a repeat run processed zero drafts and left one publication event. This verifies the deployed job endpoint, not Vercel's automatic daily trigger.</Evidence>
@@ -96,11 +95,15 @@ The technical account is grounded in source review, local tests, and a September
   <Evidence title="Remaining live checks" status="not-run">Direct database-policy coverage, reverse-direction cross-account saving, brand-voice changes, concurrent requests, and Vercel's automatic daily trigger were not tested in these checks.</Evidence>
 </Verification>
 
+## What testing changed
+
 The review found a gap between the checked-in migrations and my hosted database: the approval timestamp field already existed online but was missing from the migration history. A [follow-up migration](https://github.com/prophen/social-content-agent/blob/6798cb0/supabase/migrations/20260909010000_complete_draft_timestamps.sql) now includes it for fresh setups and adds automatic modification timestamps. It was tested locally; this review has not applied it to the hosted database or checked existing timestamp triggers.
 
 One limitation still worth addressing is the generation quota. Counting requests and recording usage happen separately, so simultaneous requests can weaken enforcement.
 
-The account-switching check also exposed an interface issue: an already-open editor kept displaying previously loaded draft text after the account changed. The server rejected a save, and opening the other account's draft in a fresh tab was denied. A follow-up local fix now resets private page state when the account changes, with regression tests for account switches and late responses. The fix has not yet been deployed or rechecked online.
+The account-switching check also exposed an interface issue: an already-open editor kept displaying the previous account's draft text. The server rejected a save, and opening that draft in a fresh tab was denied, but the old text was still visible in the original tab.
+
+A [follow-up fix](https://github.com/prophen/social-content-agent/commit/15544e90ef15372c97e22d2a12808d5c2a28331b) clears private page state when the account changes. Regression tests cover account switches, late responses, and preserving unsaved edits during routine token refreshes. After pushing the fix, I verified the deployed behavior using two regular browser tabs: the old draft content cleared during the sign-out and account-switching check.
 
 A [walkthrough is linked in the repository](https://youtu.be/HWN_2BmjthY); its contents and captions still need review.
 
