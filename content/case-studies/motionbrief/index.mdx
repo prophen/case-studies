@@ -3,8 +3,8 @@ slug: motionbrief
 project: MotionBrief
 title: The five-second video I stopped generating
 summary: I set out to generate vertical video with AI. The footage was slow, expensive, and never matched the motion I wanted — so I generate the still and move the camera instead.
-draft: true
-evidenceReviewed: false
+draft: false
+evidenceReviewed: true
 order: 2
 cover: /case-studies/motionbrief/02-visual-desktop.jpg
 coverAlt: MotionBrief's Create the visual screen showing image prompts, the Slow push in camera move, and a portrait hamster preview.
@@ -28,7 +28,7 @@ links:
 
 I wanted a tool that takes a rough campaign prompt and turns it into a finished vertical video: the brief, the visual, the narration, the edit. One prompt in, one five-second MP4 out.
 
-The original plan was generative image-to-video for the footage. Live tests were slow, expensive, and inconsistent with the motion direction I had in mind. So the finished version doesn't generate the video at all — it generates a portrait still and moves a virtual camera across it.
+The original plan was generative image-to-video for the footage. Live tests were slow, expensive, and inconsistent with the motion direction I had in mind. The finished version generates a portrait still, applies a camera move, and renders it into a video.
 
 MotionBrief is an AI-assisted creative studio. A campaign prompt becomes an editable brief, a portrait visual, a chosen camera move, narration, and a five-second vertical MP4.
 
@@ -75,7 +75,7 @@ One integration detail shaped the pipeline: ElevenLabs returns narration as a da
 The [discovery doc](https://github.com/prophen/motion-brief/blob/main/docs/motionbrief-discovery.md) records the original prototype's live tests and the switch to deterministic moves. The camera preview adds no generation charge; the final Shotstack render is still a paid request.
 </Decision>
 
-<Decision title="The estimated cost lives on the button" why="Showing the estimate on the action button keeps the cost visible without interrupting the flow." tradeoff="One click starts the paid request. The cost is shown first, directly on the button.">
+<Decision title="Estimates on image and narration buttons" why="Showing an estimate on the action button helps creators assess a paid generation before starting it." tradeoff="Estimates are not final charges. The render button says usage-based, so it still lacks a numeric estimate.">
 The September 9 screenshot shows “Narrate · est. $0.0052” for that project's script and voice. A later fresh live check used a shorter script: its button estimated $0.0038 and the usage ledger recorded $0.002925. The image's net recorded cost was $0.0039 after a later adjustment, below its $0.006 estimate. These are examples, not fixed prices.
 </Decision>
 
@@ -85,19 +85,24 @@ The [submission notes](https://github.com/prophen/motion-brief/blob/main/docs/su
 
 ## What the evidence says
 
-This account is based on the supplied narrative, repository documentation, and September 9 checks of the deployed interface. The screenshots above follow the existing Small Brave Moments project. A separate fresh project, Bravery Starts Small, was then used to run brief generation, image generation, narration, and a final render.
+This account draws on the project narrative, repository documentation, and September 9–10 checks of the deployed interface. The screenshots above follow the existing Small Brave Moments project. A separate fresh project, initially named Bravery Starts Small, was used to run brief generation, image generation, narration, and a final render, followed by guided save, export, and account-access checks.
 
 <Verification>
   <Evidence title="Fresh generation and render" status="verified" href="https://motion-brief.app.space" result="A new prompt produced a brief, visual, narration, and a playable vertical MP4.">The MP4 reported 720 × 1280 dimensions and about 5.06 seconds duration. The render was observed ready about 22 seconds after clicking. The media links and final preview remained available after reopening the project.</Evidence>
   <Evidence title="Saved brief edits" status="verified" href="https://motion-brief.app.space" result="A save/reload failure was reproduced, fixed, deployed, and retested successfully.">Saved title and headline edits now survive reopening for both the existing project and a newly generated brief. A requested generation also completed across a reload. The fix passed 50 unit tests, including eight new regression cases.</Evidence>
   <Evidence title="Usage comparison" status="verified" href="https://motion-brief.app.space" result="The test-window ledger recorded a net $0.066937 for the original checks and fix verification, below the approved $1 budget.">Narration was $0.002925 against a $0.0038 estimate. The image was initially recorded at $0.013, then received a $0.0091 adjustment, bringing its net cost to $0.0039 against a $0.006 estimate. Rendering was $0.0325 and had no numeric button estimate.</Evidence>
-  <Evidence title="Remaining checks" status="not-run">File downloads, concurrent jobs, and multi-user access have not been verified. Clipboard delivery also remains unconfirmed.</Evidence>
+  <Evidence title="Independent edits in two tabs" status="verified" href="https://motion-brief.app.space" result="Saving Audience from an older tab preserves a newer headline saved in another tab.">The first test exposed an overwrite: Save submitted the whole stale draft. The deployed fix sends only explicitly edited fields. The guided retest retained both edits after reload; the updated suite passed 55 tests.</Evidence>
+  <Evidence title="Export and playback" status="verified" href="https://motion-brief.app.space" result="Clipboard delivery, Markdown asset links, media downloads, and final MP4 playback were confirmed in the guided walkthrough.">The downloaded Markdown included image, narration, and MP4 links. All media files were saved, and the final MP4 played successfully.</Evidence>
+  <Evidence title="Private project access" status="verified" href="https://motion-brief.app.space" result="A second account could neither open the owner's project nor see it in its project list.">The direct project URL showed “Project not found.” This checks those interface access paths; exported media links are intentionally public.</Evidence>
+  <Evidence title="Outside the verified scope" status="not-run">Overlapping generation jobs, conflicting edits to the same field, and comparisons of every exported camera preset have not been tested. The account check is not a comprehensive authorization audit.</Evidence>
 </Verification>
 
 The persistence check exposed a gap in the editable workflow: reopening the page replayed a completed generation result over later edits. The deployed fix records which request was made and which job has already been applied. It preserves existing saved briefs while allowing a newly requested generation to finish across a reload. The live retest confirmed that edited title and headline fields stayed saved.
 
+The two-tab check exposed a related problem: saving one field also sent old copies of every other field. Tracking explicit edits and saving a partial update let independent changes survive. These checks made preserving the creator's work part of the pipeline's reliability, alongside generating and storing the media.
+
 ## What this version represents
 
 <ResultsOrLearnings>
-I set out to generate video with AI and ended up generating everything around the video instead. The motion is the only part that's computed rather than generated — and it's the part that made the product predictable enough to trust.
+I set out to generate video with AI and ended up using AI for the brief, still, and narration, with a computed camera move for the motion. That narrower approach gave me repeatable movement. Testing the complete workflow also showed that a successful render isn't enough: the creator's edits need to survive reopening and work in another tab.
 </ResultsOrLearnings>

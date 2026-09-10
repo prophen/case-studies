@@ -22,5 +22,11 @@ The owner selected the Step 2 desktop screenshot as the homepage and detail-page
 
 After the screenshot walkthrough, the owner authorized paid live checks with a $1 total limit. See [the live-check record](motionbrief-live-checks.md), the filtered usage ledger, and the timing observations. A fresh project successfully generated all assets and rendered an MP4, but a confirmed save/reload check lost edited brief fields. The owner then requested a fix, which was implemented, deployed, and successfully retested on both existing and newly generated briefs. The refreshed ledger includes the image adjustment and the additional brief request: $0.066937 net for the test window. The article records the failure and its resolution. The original cover and walkthrough screenshots still show Small Brave Moments.
 
-The study remains a development-visible draft with `evidenceReviewed: false`. It is excluded from production under the existing publication rules. Owner review is still needed for publication.
+The study initially remained a development-visible draft pending owner review.
+
+## September 10 follow-up
+
+The owner confirmed clipboard delivery, Markdown asset links, media downloads, and final MP4 playback. The two-tab walkthrough exposed a stale-draft overwrite, which was fixed and deployed; the owner confirmed that independent headline and audience edits then both survived. A second account received “Project not found” for the owner's project and could not see it listed. The owner reported pushing the latest fix to GitHub. See the live-check record for evidence boundaries and checks outside this walkthrough's scope.
+
+The owner approved the title, first-person narrative, final emphasis, and publication after reviewing the updated evidence. The study is now marked `draft: false` and `evidenceReviewed: true` for production.
 

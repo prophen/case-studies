@@ -53,9 +53,9 @@ describe('Content safety and publication boundaries', () => {
     fs.writeFileSync(path.join(root, 'second', 'index.mdx'), draft);
     expect(() => readStudies(root, publicRoot)).toThrow(/Duplicate slug/);
   });
-  it('validates the local studies and keeps MotionBrief in draft', () => {
+  it('validates both approved studies for production', () => {
     const studies = readStudies();
     expect(studies.map(study => study.slug)).toEqual(['social-content-agent', 'motionbrief']);
-    expect(visibleStudies(studies, 'production').map(study => study.slug)).toEqual(['social-content-agent']);
+    expect(visibleStudies(studies, 'production').map(study => study.slug)).toEqual(['social-content-agent', 'motionbrief']);
   });
 });

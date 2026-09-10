@@ -52,7 +52,7 @@ This was one fresh successful generation/render run, with a reproducible failure
 
 The owner requested a fix. MotionBrief now stores a generation request ID and an applied-job ID in the project. Existing populated briefs are adopted without replaying historical generated text, new requests can recover after reopening, and media completions patch only their own fields. All 50 unit tests (including eight new regressions), type checking, lint, and the production build pass.
 
-The fix was deployed as `rel_01M24C5VGMYJS8JSMXE3B6JRYF`; edge and data plane were confirmed serving. The GitHub-source release shipped the local working tree, which has not yet been committed or pushed.
+The fix was deployed as `rel_01M24C5VGMYJS8JSMXE3B6JRYF`; edge and data plane were confirmed serving. The GitHub-source release shipped the local working tree. The owner subsequently reported pushing the fix to GitHub.
 
 Live retest on the same disposable project:
 
@@ -63,3 +63,16 @@ Live retest on the same disposable project:
 The screenshot `public/case-studies/motionbrief/live-check-persistence-fixed.jpg` records the final persisted fields. No additional image, voice, or render requests were made during the fix verification.
 
 The refreshed test-window ledger includes a **-$0.0091 FAL adjustment**, bringing the image's net recorded cost to **$0.0039**, below the **$0.006** estimate. The extra brief-generation check recorded **$0.013923**. The total for the original checks plus fix verification is now **$0.066937**, still below the owner's $1 limit. The earlier $0.062114 figure was the pre-adjustment snapshot, not the final test-window total.
+
+## September 10 guided verification
+
+The following results were confirmed by the owner during the shared walkthrough:
+
+- Clipboard: the owner pasted the copied creative package into the conversation, confirming delivery despite the empty automation clipboard read.
+- Markdown: the downloaded file included the image, narration, and final MP4 links.
+- Downloads and playback: the owner saved all media files and confirmed that the final MP4 worked properly.
+- Concurrent edits: an older second tab initially overwrote a newer headline when saving only Audience. Save was changed to submit only explicitly edited fields. After deployment and an initial reload of both tabs, the owner repeated the test and confirmed both changes remained after reloading tab 1. The fix passed 55 unit tests, type checking, lint, and the deployment build.
+- Account privacy: using a second account, the owner received “Project not found” at the private project's URL and confirmed that the project was absent from that account's project list. This verifies those UI read-access paths; it is not a comprehensive authorization audit. Exported media links remain intentionally public.
+- Source control: the owner reported pushing the latest stale-tab fix to the MotionBrief repository after the successful retest. This records the owner's confirmation, not an independent remote commit comparison.
+
+These follow-up checks required no additional generation requests. Automatic refresh of open editors, conflicting edits to the same field, overlapping generation jobs, and comparison of every exported camera preset remain outside the verified scope. The owner subsequently approved the reviewed case study for publication.

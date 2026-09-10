@@ -1,4 +1,16 @@
 import { expect, test } from '@playwright/test';
+
+test('production publishes MotionBrief with its cover and reviewed evidence', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('a[href="/case-studies/motionbrief"]')).toBeVisible();
+  const response = await page.goto('/case-studies/motionbrief');
+  expect(response?.status()).toBe(200);
+  await expect(page.getByRole('heading', { level: 1, name: 'The five-second video I stopped generating' })).toBeVisible();
+  await expect(page.locator('.draft-notice')).toHaveCount(0);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://work.nikema.dev/case-studies/motionbrief');
+  const cover = page.locator('main img').first();
+  await expect.poll(() => cover.evaluate(image => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+});
 test('production includes the approved study without draft notices', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'An AI workflow before an AI agent' })).toBeVisible();
@@ -14,6 +26,7 @@ test('sitemap and metadata include the published study at the confirmed domain',
   const sitemap = await request.get('/sitemap.xml');
   expect(sitemap.ok()).toBe(true);
   expect(await sitemap.text()).toContain('<loc>https://work.nikema.dev/case-studies/social-content-agent</loc>');
+  expect(await sitemap.text()).toContain('<loc>https://work.nikema.dev/case-studies/motionbrief</loc>');
   expect(await sitemap.text()).not.toContain('localhost');
   expect(await sitemap.text()).toContain('<loc>https://work.nikema.dev</loc>');
   const home = await request.get('/');
