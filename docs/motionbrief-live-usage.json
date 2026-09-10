@@ -1,0 +1,146 @@
+[
+  {
+    "id": "10ee3321-dcb8-49b3-bcbd-451559def057",
+    "integrationName": "openai",
+    "endpoint": "chat-completion",
+    "totalCost": "0.013903500000000001",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:42:19Z"
+  },
+  {
+    "id": "77913d6a-58d4-4273-9a53-dc82f23db9e5",
+    "integrationName": "openai",
+    "endpoint": "chat-completion",
+    "totalCost": "0.0000195",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:42:08Z"
+  },
+  {
+    "id": "c1d68e3b-806a-4f7d-8b88-735d3cfe6655",
+    "integrationName": "fal",
+    "endpoint": "run-model",
+    "totalCost": "-0.0091",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:27:15Z"
+  },
+  {
+    "id": "7d8f4214-47ff-47ce-951c-aa2a5efbecca",
+    "integrationName": "shotstack",
+    "endpoint": "get-render",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:20:00Z"
+  },
+  {
+    "id": "cf74d9c3-e042-49a2-9c3d-0a24b5488343",
+    "integrationName": "shotstack",
+    "endpoint": "render",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:20:00Z"
+  },
+  {
+    "id": "1719c525-aa46-4166-9245-b3c7d8241003",
+    "integrationName": "shotstack",
+    "endpoint": "get-render",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:19:59Z"
+  },
+  {
+    "id": "0ad83f91-5bdb-4d63-af4e-113f26fc16b5",
+    "integrationName": "shotstack",
+    "endpoint": "get-render",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:19:55Z"
+  },
+  {
+    "id": "3548b3de-616e-405a-814e-e05101bf1d17",
+    "integrationName": "shotstack",
+    "endpoint": "get-render",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:19:54Z"
+  },
+  {
+    "id": "86f8d402-c174-4685-839f-a79fe4cdc864",
+    "integrationName": "shotstack",
+    "endpoint": "render",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:19:51Z"
+  },
+  {
+    "id": "fb33866f-6d48-4ed5-9831-2a9820d08646",
+    "integrationName": "shotstack",
+    "endpoint": "render",
+    "totalCost": "0.0325",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:19:49Z"
+  },
+  {
+    "id": "2aff9c37-2efa-412e-a05d-312bdbbd1af3",
+    "integrationName": "elevenlabs",
+    "endpoint": "generate-speech",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:18:45Z"
+  },
+  {
+    "id": "0a0ba6a0-5dd5-44d0-8fc3-11392cb0494b",
+    "integrationName": "elevenlabs",
+    "endpoint": "generate-speech",
+    "totalCost": "0.0029250000000000005",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:18:45Z"
+  },
+  {
+    "id": "c2c8287a-cdfb-4887-baa0-93ce148b9cc7",
+    "integrationName": "fal",
+    "endpoint": "get-result",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:17:10Z"
+  },
+  {
+    "id": "50a945d0-7c44-409a-92c8-cf59d33ad935",
+    "integrationName": "fal",
+    "endpoint": "get-result",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:17:08Z"
+  },
+  {
+    "id": "4d365be7-4d71-45e8-9fb5-c041cd61805c",
+    "integrationName": "fal",
+    "endpoint": "run-model",
+    "totalCost": "0",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:17:06Z"
+  },
+  {
+    "id": "7d3f0747-83dd-4801-953c-23fc9ebbefe1",
+    "integrationName": "fal",
+    "endpoint": "run-model",
+    "totalCost": "0.013000000000000001",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:17:05Z"
+  },
+  {
+    "id": "eff4fb1a-1495-4398-9830-308b72910440",
+    "integrationName": "openai",
+    "endpoint": "chat-completion",
+    "totalCost": "0.0136695",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:16:02Z"
+  },
+  {
+    "id": "8b4c5a0f-1cef-4f37-88fa-17d68cd4e7f0",
+    "integrationName": "openai",
+    "endpoint": "chat-completion",
+    "totalCost": "0.0000195",
+    "status": "completed",
+    "createdAt": "2026-09-10T00:15:52Z"
+  }
+]

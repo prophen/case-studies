@@ -27,7 +27,7 @@ test('navigation, anchors, disclosures, and keyboard focus work', async ({ page 
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
   await page.keyboard.press('Enter');
-  await page.getByRole('link', { name: 'Open the field notes' }).click();
+  await page.locator('a[href="/case-studies/motionbrief"]').click();
   await expect(page.getByText('A work in progress.', { exact: true })).toBeVisible();
   const chapter = page.getByRole('navigation', { name: 'Case study chapters' }).getByRole('link', { name: /Decisions visible in the code/ });
   await chapter.click();

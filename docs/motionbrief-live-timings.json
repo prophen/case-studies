@@ -1,0 +1,21 @@
+{
+  "brief": {
+    "started": "2026-09-10T00:15:51.469Z",
+    "observedComplete": "2026-09-10T00:16:13.373Z"
+  },
+  "visual": {
+    "started": "2026-09-10T00:17:04.767Z",
+    "estimateUsd": 0.006,
+    "observedComplete": "2026-09-10T00:17:49.037Z"
+  },
+  "voice": {
+    "started": "2026-09-10T00:18:44.588Z",
+    "estimateUsd": 0.0038,
+    "observedComplete": "2026-09-10T00:19:21.064Z"
+  },
+  "render": {
+    "started": "2026-09-10T00:19:48.546Z",
+    "displayedPrice": "usage-based",
+    "observedComplete": "2026-09-10T00:20:10.553Z"
+  }
+}
