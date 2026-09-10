@@ -11,6 +11,8 @@
 
 ## Components
 
+The homepage follows the frontmatter `order` value, lowest first. Keep projects in newest-to-oldest project chronology (not last-edit order); assign a new project `order: 1` and increase older projects' values as needed. The `featured` field does not override this order.
+
 `Callout title="Scope"` wraps a scope note. `Decision title="..." why="..." tradeoff="..."` wraps supporting evidence in a native disclosure. `WorkflowSteps` contains `Step title="..."` children. `ResultsOrLearnings` wraps authentic outcomes and limitations.
 
 ```mdx
