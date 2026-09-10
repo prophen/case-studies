@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { canonicalBase } from '@/lib/site';
+import { siteTitle, siteDescription, socialMetadata } from '@/lib/social-metadata';
 import '@fontsource-variable/inter';
 import '@fontsource/kalam/400.css';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: { default: 'Nikema — Field notes', template: '%s · Nikema' },
-  description: 'Case studies in building, testing, and figuring things out.',
+  metadataBase: new URL(canonicalBase()!),
+  title: { default: siteTitle, template: '%s · Nikema' },
+  description: siteDescription,
+  ...socialMetadata(siteTitle, siteDescription),
   robots: { index: false, follow: false },
 };
 

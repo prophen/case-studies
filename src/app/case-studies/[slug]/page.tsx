@@ -9,6 +9,7 @@ import { mdxComponents, ProjectFacts, ProofLinks } from '@/components/case-study
 import { CaseStudyNav } from '@/components/case-study-nav';
 import { WorkflowPreview } from '@/components/workflow-preview';
 import { canonicalBase } from '@/lib/site';
+import { socialMetadata } from '@/lib/social-metadata';
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() { return getStudies().map(study => ({ slug: study.slug })); }
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const study = getStudy((await params).slug);
   if (!study) return { title: 'Page not found', robots: { index: false, follow: false } };
   const base = canonicalBase();
-  return { title: study.title, description: study.summary, robots: { index: !study.draft && !!base, follow: !study.draft && !!base }, ...(base && !study.draft ? { alternates: { canonical: `${base}/case-studies/${study.slug}` } } : {}) };
+  return { title: study.title, description: study.summary, ...socialMetadata(study.title, study.summary, `/case-studies/${study.slug}`), robots: { index: !study.draft && !!base, follow: !study.draft && !!base }, ...(base && !study.draft ? { alternates: { canonical: `${base}/case-studies/${study.slug}` } } : {}) };
 }
 export default async function StudyPage({ params }: Props) {
   const study = getStudy((await params).slug);
