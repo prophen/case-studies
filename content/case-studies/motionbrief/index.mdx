@@ -7,7 +7,7 @@ draft: false
 evidenceReviewed: true
 order: 2
 cover: /case-studies/motionbrief/02-visual-desktop.jpg
-coverAlt: MotionBrief's Create the visual screen showing image prompts, the Slow push in camera move, and a portrait hamster preview.
+coverAlt: MotionBrief's Create the visual screen showing image prompts, the Slow push in camera move, a portrait hamster preview, and the pinned Save changes bar.
 coverWidth: 1440
 coverHeight: 1100
 coverCaption: The visual step in Small Brave Moments. A generated still and a selected camera move share one screen.
@@ -54,12 +54,14 @@ A campaign moves through four screens, with the creator reviewing and editing at
   <Step title="Render and export">Shotstack assembles the still, the camera move, and the narration into a five-second vertical MP4. The final screen keeps the brief and media download links together.</Step>
 </WorkflowSteps>
 
-These screenshots follow the existing “Small Brave Moments” project through the app's four steps. They show the desktop layout, captured on September 9, 2026.
+I pinned Save to the bottom of the screen so it stays within reach while editing, without scrolling back to the top. The bar also keeps the save status visible across the workflow.
 
-  <ProductImage src="/case-studies/motionbrief/01-brief-desktop.jpg" alt="Step one showing the editable Small Brave Moments brief, objective, audience, and Peek Into Possibility headline." caption="1. Shape the brief: review the generated campaign fields." width="1440" height="1327" />
-  <ProductImage src="/case-studies/motionbrief/02-visual-desktop.jpg" alt="Step two showing Slow push in selected above a portrait hamster visual and a five-second motion preview." caption="2. Create the visual: the still and camera move share one step." width="1440" height="1100" />
-  <ProductImage src="/case-studies/motionbrief/03-voice-desktop.jpg" alt="Step three showing a nine-word narration script, Sarah voice selection, and Narrate button estimating $0.0052." caption="3. Add the voice: script, voice choice, and cost estimate appear together." width="1440" height="1100" />
-  <ProductImage src="/case-studies/motionbrief/04-export-desktop.jpg" alt="Step four showing media download links and the existing hamster video paused in the final MP4 player." caption="4. Render and export: an existing final MP4 with its download links. No new render was run during capture." width="1440" height="1100" />
+These screenshots follow the existing “Small Brave Moments” project through the app's four steps. They show the desktop layout, refreshed on September 10, 2026, with the pinned Save bar.
+
+  <ProductImage src="/case-studies/motionbrief/01-brief-desktop.jpg" alt="Step one showing the editable Small Brave Moments brief, objective, audience, and Peek Into Possibility headline, with Save changes pinned at the bottom." caption="1. Shape the brief: review the generated campaign fields, with Save and its status kept in view." width="1440" height="1327" />
+  <ProductImage src="/case-studies/motionbrief/02-visual-desktop.jpg" alt="Step two showing Slow push in selected beside a portrait hamster motion preview, with the pinned Save changes bar below." caption="2. Create the visual: the still and camera move share one step." width="1440" height="1100" />
+  <ProductImage src="/case-studies/motionbrief/03-voice-desktop.jpg" alt="Step three showing a nine-word narration script, Sarah voice selection, a Narrate button estimating $0.0052, and the pinned Save changes bar." caption="3. Add the voice: script, voice choice, and cost estimate appear together." width="1440" height="1100" />
+  <ProductImage src="/case-studies/motionbrief/04-export-desktop.jpg" alt="Step four showing media download links, the existing hamster video paused in the final MP4 player, and the pinned Save changes bar." caption="4. Render and export: an existing final MP4 with its download links. No new render was run during capture." width="1440" height="1100" />
 
 ## Under the surface
 
@@ -76,7 +78,7 @@ The [discovery doc](https://github.com/prophen/motion-brief/blob/main/docs/motio
 </Decision>
 
 <Decision title="Estimates on image and narration buttons" why="Showing an estimate on the action button helps creators assess a paid generation before starting it." tradeoff="Estimates are not final charges. The render button says usage-based, so it still lacks a numeric estimate.">
-The September 9 screenshot shows “Narrate · est. $0.0052” for that project's script and voice. A later fresh live check used a shorter script: its button estimated $0.0038 and the usage ledger recorded $0.002925. The image's net recorded cost was $0.0039 after a later adjustment, below its $0.006 estimate. These are examples, not fixed prices.
+The screenshot shows “Narrate · est. $0.0052” for that project's script and voice. A separate fresh live check used a shorter script: its button estimated $0.0038 and the usage ledger recorded $0.002925. The image's net recorded cost was $0.0039 after a later adjustment, below its $0.006 estimate. These are examples, not fixed prices.
 </Decision>
 
 <Decision title="Durable storage instead of provider URLs" why="Upstream asset URLs expire. Copying finished assets into app-scoped storage means renders don't break when a provider link goes stale." tradeoff="The app stores and serves bytes it didn't create — storage costs and lifecycle management a pure pass-through wouldn't have.">

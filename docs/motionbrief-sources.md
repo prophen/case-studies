@@ -30,3 +30,11 @@ The owner confirmed clipboard delivery, Markdown asset links, media downloads, a
 
 The owner approved the title, first-person narrative, final emphasis, and publication after reviewing the updated evidence. The study is now marked `draft: false` and `evidenceReviewed: true` for production.
 
+## September 10 pinned Save screenshot refresh
+
+The owner moved Save into a bar pinned to the bottom of the screen and requested an updated explanation and screenshots. The article describes the intent: keeping Save within reach while editing. This is not a measured usability improvement.
+
+Reopened the existing Small Brave Moments project in the signed-in deployed app and captured all four workflow steps with the pinned `Save changes` bar and `All changes saved` status. Replaced the four `-desktop.jpg` images at their existing dimensions: 1440 × 1327 for Brief and 1440 × 1100 for Visual, Voice, and Export. The Visual asset also updates the homepage and article cover. Updated the capture date, alt text, and brief caption. The narration estimate remains $0.0052.
+
+No project fields were edited and no generation or render requests were made. The existing MP4 was loaded and paused for the export capture. Earlier narrow images and live-check evidence captures remain historical records and are not used in the current article walkthrough. Temporary viewport overrides were reset after capture.
+
