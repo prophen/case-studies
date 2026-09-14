@@ -9,7 +9,7 @@ export function Decision({ title, why, tradeoff, children }: Children & { title:
 export function WorkflowSteps({ children }: Children) { return <ol className="workflow-steps">{children}</ol>; }
 export function Step({ title, children }: Children & { title: string }) { return <li><h3>{title}</h3><div>{children}</div></li>; }
 type ImageProps = { src: string; alt: string; caption: string; width: string; height: string };
-export function ProductImage({ src, alt, caption, width, height }: ImageProps) { return <figure className="product-image"><Image src={src} alt={alt} width={Number(width)} height={Number(height)} sizes="(max-width: 800px) 88vw, 900px"/><figcaption>{caption}</figcaption></figure>; }
+export function ProductImage({ src, alt, caption, width, height }: ImageProps) { return <figure className="product-image"><Image src={src} alt={alt} width={Number(width)} height={Number(height)} sizes="(max-width: 800px) 88vw, 900px" quality={90}/><figcaption>{caption}</figcaption></figure>; }
 export function ImageGallery({ children }: Children) { return <div className="image-gallery">{children}</div>; }
 export function ArchitectureDiagram({ description, ...props }: ImageProps & { description: string }) { return <div className="architecture-diagram"><ProductImage {...props}/><p>{description}</p></div>; }
 export function Verification({ children }: Children) { return <dl className="verification">{children}</dl>; }
