@@ -26,4 +26,4 @@ export function ProjectFacts({ study }: { study: StudyMetadata }) {
   const facts = [['Role', study.role], ['Stack', study.stack?.join(', ')], ['Timeline', study.timeline], ['Status', study.projectStatus], ['Scope', study.scope]].filter(([,value]) => value);
   return facts.length ? <dl className="project-facts">{facts.map(([key, value]) => <div key={key}><dt>{key}</dt><dd>{value}</dd></div>)}</dl> : null;
 }
-export const mdxComponents: MDXComponents = { Callout, Decision, WorkflowSteps, Step, ProductImage, ImageGallery, ArchitectureDiagram, Verification, Evidence, ResultsOrLearnings, DemoEmbed };
+export const mdxComponents: MDXComponents = { Callout, Decision, WorkflowSteps, Step, ProductImage, ImageGallery, ArchitectureDiagram, Verification, Evidence, ResultsOrLearnings, DemoEmbed, VideoEmbed };
