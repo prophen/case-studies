@@ -46,7 +46,7 @@ This verifies a single-user deployed workflow through the UI, not every integrat
 
 The case-study evidence and architecture caption now distinguish these live results from the remaining checks. The case study remains a draft pending final owner review.
 
-Reviewed September 8, 2026. Local source: `C:/Users/admin/Development/social-content-agent`. Clean source checkout at `c68bd8d2f28480145c75fcebc7961bc2f97a08d5`. No application source edits or live data mutations were made.
+Reviewed September 8, 2026. a local checkout of the social-content-agent source. Clean source checkout at `c68bd8d2f28480145c75fcebc7961bc2f97a08d5`. No application source edits or live data mutations were made.
 
 ## Owner account incorporated
 
