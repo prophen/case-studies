@@ -28,7 +28,7 @@ Two studies are published and evidence-reviewed: Social Content Agent and Motion
 
 Drafts render only in development. Production returns 404 for their URLs and excludes them from the homepage and sitemap. Publication requires reviewed evidence and a real cover. The confirmed production canonical origin is `https://work.nikema.dev`, used by default for canonical links, the sitemap, and the production robots sitemap URL. `SITE_URL` can explicitly override it if the owner changes domains. Local development requests no indexing.
 
-The site is deployed at https://work.nikema.dev.
+The site is deployed at https://case-studies-pearl.vercel.app.
 
 ## Handoff and design history
 
