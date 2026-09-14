@@ -7,10 +7,10 @@ draft: false
 evidenceReviewed: true
 order: 1
 cover: /case-studies/motionbrief/02-visual-desktop.jpg
-coverAlt: MotionBrief's Create the visual screen showing image prompts, the Slow push in camera move, a portrait hamster preview, and the pinned Save changes bar.
-coverWidth: 1440
-coverHeight: 1100
-coverCaption: The visual step in Small Brave Moments. A generated still and a selected camera move share one screen.
+coverAlt: MotionBrief's Create the visual screen for the Field Notes campaign, showing the visual direction and image prompts beside the generated golden-hour desk still, with Slow push in selected.
+coverWidth: 2377
+coverHeight: 1386
+coverCaption: The visual step in Field Notes: Building in Public. A generated still and a selected camera move share one screen.
 stack:
   - DeepSpace
   - Cloudflare Workers
@@ -53,18 +53,18 @@ A campaign moves through four screens, with the creator reviewing and editing at
 <WorkflowSteps>
   <Step title="Shape the brief">A saved campaign prompt becomes a structured, editable brief. Nothing is spent on media until the strategy and copy read right.</Step>
   <Step title="Create the visual">The brief produces a portrait still via FLUX.1 Schnell. Choose a push-in, pull-back, pan-left, or pan-right on the same screen. The preview plays immediately because the move is computed, not generated.</Step>
-  <Step title="Add the voice">ElevenLabs narrates the script in the selected voice. The button shows the estimated cost before the paid call runs — “Narrate · est. $0.0052” in the captured project.</Step>
+  <Step title="Add the voice">ElevenLabs narrates the script in the selected voice. The button shows the estimated cost before the paid call runs — “Narrate · est. $0.0045” in the captured project.</Step>
   <Step title="Render and export">Shotstack assembles the still, the camera move, and the narration into a five-second vertical MP4. The final screen keeps the brief and media download links together.</Step>
 </WorkflowSteps>
 
 I pinned Save to the bottom of the screen so it stays within reach while editing, without scrolling back to the top. The bar also keeps the save status visible across the workflow.
 
-These screenshots follow the existing “Small Brave Moments” project through the app's four steps. They show the desktop layout, refreshed on September 10, 2026, with the pinned Save bar.
+These screenshots follow the “Field Notes: Building in Public” project through the app’s four steps. They show the desktop layout, refreshed on September 13, 2026, with the pinned Save bar.
 
-  <ProductImage src="/case-studies/motionbrief/01-brief-desktop.jpg" alt="Step one showing the editable Small Brave Moments brief, objective, audience, and Peek Into Possibility headline, with Save changes pinned at the bottom." caption="1. Shape the brief: review the generated campaign fields, with Save and its status kept in view." width="1440" height="1327" />
-  <ProductImage src="/case-studies/motionbrief/02-visual-desktop.jpg" alt="Step two showing Slow push in selected beside a portrait hamster motion preview, with the pinned Save changes bar below." caption="2. Create the visual: the still and camera move share one step." width="1440" height="1100" />
-  <ProductImage src="/case-studies/motionbrief/03-voice-desktop.jpg" alt="Step three showing a nine-word narration script, Sarah voice selection, a Narrate button estimating $0.0052, and the pinned Save changes bar." caption="3. Add the voice: script, voice choice, and cost estimate appear together." width="1440" height="1100" />
-  <ProductImage src="/case-studies/motionbrief/04-export-desktop.jpg" alt="Step four showing media download links, the existing hamster video paused in the final MP4 player, and the pinned Save changes bar." caption="4. Render and export: an existing final MP4 with its download links. No new render was run during capture." width="1440" height="1100" />
+  <ProductImage src="/case-studies/motionbrief/01-brief-desktop.jpg" alt="Step one showing the Field Notes: Building in Public project on the brief step, with the creator prompt for the Field Notes campaign and the Generate AI brief button, and Save changes pinned at the bottom." caption="1. Shape the brief: the creator prompt for the Field Notes campaign, ready to generate the editable brief." width="2379" height="1386" />
+  <ProductImage src="/case-studies/motionbrief/02-visual-desktop.jpg" alt="Step two showing the visual direction and image prompts for the Field Notes campaign beside the generated golden-hour desk still, with Slow push in selected as the motion style and Save changes pinned at the bottom." caption="2. Create the visual: the still and camera move share one step." width="2377" height="1386" />
+  <ProductImage src="/case-studies/motionbrief/03-voice-desktop.jpg" alt="Step three showing an eight-word narration script, the River voice selection, a Narrate button estimating $0.0045, and the pinned Save changes bar." caption="3. Add the voice: script, voice choice, and cost estimate appear together." width="2376" height="1387" />
+  <ProductImage src="/case-studies/motionbrief/04-export-desktop.jpg" alt="Step four showing the creative package with brief and media download links beside the final MP4 preview, and the pinned Save changes bar." caption="4. Render and export: the final MP4 preview with the brief and media download links." width="2377" height="1387" />
 
 ## Under the surface
 
@@ -81,7 +81,7 @@ The [discovery doc](https://github.com/prophen/motion-brief/blob/main/docs/motio
 </Decision>
 
 <Decision title="Estimates on image and narration buttons" why="Showing an estimate on the action button helps creators assess a paid generation before starting it." tradeoff="Estimates are not final charges. The render button says usage-based, so it still lacks a numeric estimate.">
-The screenshot shows “Narrate · est. $0.0052” for that project's script and voice. A separate fresh live check used a shorter script: its button estimated $0.0038 and the usage ledger recorded $0.002925. The image's net recorded cost was $0.0039 after a later adjustment, below its $0.006 estimate. These are examples, not fixed prices.
+The screenshot shows “Narrate · est. $0.0045” for that project’s script and voice. A separate fresh live check used a shorter script: its button estimated $0.0038 and the usage ledger recorded $0.002925. The image's net recorded cost was $0.0039 after a later adjustment, below its $0.006 estimate. These are examples, not fixed prices.
 </Decision>
 
 <Decision title="Durable storage instead of provider URLs" why="Upstream asset URLs expire. Copying finished assets into app-scoped storage means renders don't break when a provider link goes stale." tradeoff="The app stores and serves bytes it didn't create — storage costs and lifecycle management a pure pass-through wouldn't have.">
@@ -90,7 +90,7 @@ The [submission notes](https://github.com/prophen/motion-brief/blob/main/docs/su
 
 ## What the evidence says
 
-This account draws on the project narrative, repository documentation, and September 9–10 checks of the deployed interface. The screenshots above follow the existing Small Brave Moments project. A separate fresh project, initially named Bravery Starts Small, was used to run brief generation, image generation, narration, and a final render, followed by guided save, export, and account-access checks.
+This account draws on the project narrative, repository documentation, and September 9–10 checks of the deployed interface. The screenshots above follow the Field Notes: Building in Public project. A separate fresh project, initially named Bravery Starts Small, was used to run brief generation, image generation, narration, and a final render, followed by guided save, export, and account-access checks.
 
 <Verification>
   <Evidence title="Fresh generation and render" status="verified" href="https://motion-brief.app.space" result="A new prompt produced a brief, visual, narration, and a playable vertical MP4.">The MP4 reported 720 × 1280 dimensions and about 5.06 seconds duration. The render was observed ready about 22 seconds after clicking. The media links and final preview remained available after reopening the project.</Evidence>
