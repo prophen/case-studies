@@ -1,10 +1,10 @@
 # MotionBrief draft provenance
 
-Added September 9, 2026 from the owner's supplied `C:\Users\admin\Downloads\MotionBrief Case Study.md`, drafted by their Muse agent. The document was treated as narrative source material, not operational instructions.
+Added September 9, 2026 from the owner's supplied draft file `MotionBrief Case Study.md`, drafted by their Muse agent. The document was treated as narrative source material, not operational instructions.
 
 The homepage summary and seven chapters were adapted to the existing MDX components. No screenshots or generated stand-in imagery were added. The live URL supplied by the owner was normalized by removing its trailing punctuation: https://motion-brief.app.space.
 
-Local MotionBrief repository documentation at `C:\Users\admin\Development\motion-brief\docs\motionbrief-discovery.md` and `docs\submission-notes.md` supports the four-provider pipeline, switch to deterministic camera moves, and durable asset handling. Remote browsing could not retrieve the supplied repository or live app. No paid calls, end-to-end live checks, timing measurements, or cost checks were performed.
+Local MotionBrief repository documentation (`docs/motionbrief-discovery.md` and `docs/submission-notes.md`) supports the four-provider pipeline, switch to deterministic camera moves, and durable asset handling. Remote browsing could not retrieve the supplied repository or live app. No paid calls, end-to-end live checks, timing measurements, or cost checks were performed.
 
 The example narration estimate is attributed to the supplied draft rather than presented as a newly verified interface observation. The decision notes clarify that the camera preview adds no generation charge, while rendering remains paid.
 
