@@ -26,4 +26,4 @@ export const caseStudySchema = z.object({
   if (!value.draft && (!value.evidenceReviewed || !value.cover)) ctx.addIssue({ code: 'custom', message: 'Publishing requires a real cover and evidenceReviewed: true after owner review' });
 });
 export type StudyMetadata = z.infer<typeof caseStudySchema>;
-export const componentNames = ['Callout', 'Decision', 'WorkflowSteps', 'Step', 'ProductImage', 'ImageGallery', 'ArchitectureDiagram', 'Verification', 'Evidence', 'ResultsOrLearnings', 'DemoEmbed'] as const;
+export const componentNames = ['Callout', 'Decision', 'WorkflowSteps', 'Step', 'ProductImage', 'ImageGallery', 'ArchitectureDiagram', 'Verification', 'Evidence', 'ResultsOrLearnings', 'DemoEmbed', 'VideoEmbed'] as const;
