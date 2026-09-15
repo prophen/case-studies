@@ -2,6 +2,10 @@
 
 A local Next.js + TypeScript + MDX case-study portfolio in the approved **builder’s studio with notebook touches** direction: warm paper, ink blue, expressive sans-serif type, and small handwritten annotations.
 
+## Screenshots
+
+![MotionBrief case study on work.nikema.dev](docs/screenshots/motionbrief-study.png)
+
 ## Run locally
 
 Requires Node 22.18+ and npm. Run `npm ci`, then `npm run dev` and open http://127.0.0.1:5188. Fonts are bundled locally; there are no third-party embeds or required API keys.
