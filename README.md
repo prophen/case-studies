@@ -4,6 +4,8 @@ A local Next.js + TypeScript + MDX case-study portfolio in the approved **builde
 
 ## Screenshots
 
+![work.nikema.dev homepage](docs/screenshots/homepage.png)
+
 ![MotionBrief case study on work.nikema.dev](docs/screenshots/motionbrief-study.png)
 
 ## Run locally
