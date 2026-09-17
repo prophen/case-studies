@@ -83,9 +83,9 @@ The polished build is deployed and accepted: the approved visual pass, the Quick
 ## What the evidence says
 
 <Verification>
-  <Evidence title="Validation run" status="unconfirmed">The repo's Windows validation docs record 715 passing assertions across 62 files. Checked against the private repository during drafting; pending owner review.</Evidence>
-  <Evidence title="Seed data counts" status="unconfirmed">3 projects, 4 apps, 18 artifact titles (12 published, 6 inbox) confirmed in the demo seed source during drafting; pending owner review.</Evidence>
-  <Evidence title="Quick Launch behavior" status="unconfirmed">Open app launches the saved URL in a new tab with rel="noopener noreferrer"; View details stays in the current tab. Confirmed in the Quick Launch component on main during drafting; pending owner review.</Evidence>
+  <Evidence title="Validation run" status="verified">The repo's Windows validation docs (docs/windows-hosted-manual-validation.md and docs/windows-standalone-validation.md) record 715 passing assertions across 62 files. Confirmed against the private repository.</Evidence>
+  <Evidence title="Seed data counts" status="verified">src/server/demo/demo-data.ts defines 3 projects, 4 apps, and 18 artifact titles (12 published, 6 inbox-prefixed). Confirmed against the private repository.</Evidence>
+  <Evidence title="Quick Launch behavior" status="verified">In src/components/dashboard/quick-launch-item.tsx, Open app renders an anchor with target="_blank" rel="noopener noreferrer"; View details is a Next.js Link to /apps/[id] that stays in the current tab. Confirmed against the private repository.</Evidence>
   <Evidence title="Stale Projects page fix" status="unconfirmed">Root cause verified as build-time prerendering of /projects (static in the prerender manifest, no revalidation); the fix was force-dynamic on four database-backed pages with no query, schema, or data changes; validation covered 11 focused tests, production build route classification, HTTP checks, and real Chrome acceptance. Per the chief of staff's verified account; pending owner review.</Evidence>
   <Evidence title="Deployment" status="unconfirmed">Polished build deployed and accepted; production serving with the live catalog preserved; preflight, rehearsal, data-equality, and acceptance checks passed. Per the retained deployment record; pending owner review.</Evidence>
 </Verification>
