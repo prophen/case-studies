@@ -36,8 +36,10 @@ The result is a local-first dashboard: Next.js App Router, strict TypeScript, SQ
 
 The engineering is genuinely solid, which matters because "an agent built it" invites skepticism. The server is layered: routes call services, services call repositories, repositories talk to Drizzle. Input goes through Zod contracts. Merges go through pull requests with independent review. The recorded validation run shows 715 passing assertions across 62 files: tests, lint, typecheck, migrations, build, dependency audits.
 
+<ArchitectureDiagram src="/case-studies/hermes-hub/architecture.png" alt="Architecture diagram: six Discord agents feed work into the local-first Hermes Hub Next.js app, which reads a SQLite catalog through Drizzle ORM. Everything runs on one computer." caption="The architecture: agent work flows into a local Next.js app backed by a SQLite catalog. Nothing leaves the machine." width="2400" height="1500" description="A three-layer diagram. Top: the six Hermes agents on Discord, with the Chief of Staff orchestrating the Career Copilot, Coder Bot, DevRel Strategist, AI Architect, and Facebook Scheduler; their work products flow into the catalog. Middle: Hermes Hub, a Next.js App Router app serving on 127.0.0.1:3000, with Dashboard, Projects, Apps, Artifacts, and Inbox pages; requests flow through Routes, Services, Repositories, and Drizzle ORM, and database-backed pages render per request. Bottom: the SQLite catalog, a local file holding projects, apps, artifacts, sessions, tags, and activity events. A boundary around the app and database notes loopback-only access with no phone or remote access; the catalog stays on the computer with no cloud sync." />
+
 <Callout title="How this was verified">
-The technical details here were checked against the private repository during drafting: the commit history, the pull requests, and the validation docs. They are pending the owner's review before publication.
+The technical details here were checked against the private repository: the commit history, the pull requests, and the validation docs. The diagram above was drawn from that same source.
 </Callout>
 
 ## Decisions and tradeoffs
