@@ -1,0 +1,88 @@
+---
+slug: hermes-hub
+project: Hermes Hub
+title: The office my agents built for themselves
+summary: I run a team of six AI agents. Their work was scattered across chat sessions and folders, so I assigned two of them to design and build a private dashboard to catalog it all. I directed the work, reviewed the merges, and tested the builds.
+draft: true
+order: 1
+role: Project lead
+stack:
+  - Next.js
+  - React
+  - TypeScript
+  - SQLite
+  - Drizzle ORM
+projectStatus: Deployed
+timeline: September 2026
+scope: Private, local-first catalog of AI agent work. No cloud sync, no multi-user support.
+---
+
+## Where I started
+
+I work with six Hermes agents on a Discord server: a chief of staff that orchestrates the others, a coder, a DevRel strategist, an AI architect, a Facebook scheduler, and a career copilot that emails me job shortlists on weekdays.
+
+That setup produced a problem of its own. The agents were doing real work, building apps, drafting artifacts, running work sessions, and the output was scattered across chat threads and folders with no catalog, no memory, no front door. I needed a private place where all of it could land: projects, apps, artifacts, sessions. Local, because this is my working life, and I did not want it in anyone's cloud.
+
+## How it was built
+
+Here is the part that makes this project different from everything else I have shipped: I did not build it alone, and I was not even the primary builder. The coder bot and the chief of staff led the Hermes Hub project. I set the direction, reviewed the changes, and tested the builds.
+
+The result is a local-first dashboard: Next.js App Router, strict TypeScript, SQLite through Drizzle ORM, with all persistence confined to server modules, so the browser never touches the filesystem or the database. The catalog covers projects, apps, artifacts, an inbox, sessions, and tags, with an activity log over all of it.
+
+The engineering is genuinely solid, which matters because "an agent built it" invites skepticism. The server is layered: routes call services, services call repositories, repositories talk to Drizzle. Input goes through Zod contracts. Merges go through pull requests with independent review. The recorded validation run shows 715 passing assertions across 62 files: tests, lint, typecheck, migrations, build, dependency audits.
+
+<Callout title="How this was verified">
+The technical details here were checked against the private repository during drafting: the commit history, the pull requests, and the validation docs. They are pending the owner's review before publication.
+</Callout>
+
+## Decisions and tradeoffs
+
+<Decision title="Local-first and private by design" why="The dashboard catalogs my actual working life. A cloud database would mean trusting a third party with all of it." tradeoff="One machine, no sync, no sharing. If I want the catalog on another computer, that is a problem I have not solved. Deliberately.">
+Catalog records live in a local SQLite database in the OS app-data directory. There is no cloud sync, no login, no external-service integration. Opening a saved app URL can still connect the browser to that app's destination.
+</Decision>
+
+<Decision title="Manual manifest import instead of automatic scanning" why="The original instinct was automatic filesystem scanning. For a tool that sits next to private work, explicit consent beats convenience." tradeoff="More friction per import.">
+Artifacts enter through manifest preview and import: you look at exactly what will be cataloged before anything is recorded. No background filesystem collection. The privacy boundary is a feature, not a missing feature.
+</Decision>
+
+<Decision title="Sanitized demo data from day one" why="The plan was always to make the repo public eventually, so the seed data is fictional from the start." tradeoff="Maintaining two datasets, the demo fiction and the real catalog, is ongoing work.">
+Three demo projects, four apps, eighteen artifacts, six inbox items, all with example.test URLs and paths like C:/fictional-workspaces/.... A clean-demo verifier spins up an isolated copy, runs the full pipeline (install, migrate, seed, tests, lint, typecheck, build), and tears it all down without touching the real catalog.
+</Decision>
+
+<Decision title="The Quick Launch fix: testing caught what review didn't" why="When I tested the app, I found it myself: Quick Launch opened the catalog details page instead of the saved app URL. The button labeled 'launch' did not launch anything." tradeoff="It admits the shipped V1 had a first-use bug in a headline feature, found the one time I actually tested the build.">
+The fix separated 'Open app' from 'View details,' keeping the URL safety checks, and went through as a reviewed pull request. A follow-up made 'Open app' launch in a new tab. So this one was caught by testing, not by daily use. I would rather show the correction than pretend it was perfect.
+</Decision>
+
+<Decision title="The stale Projects page: the page was frozen, not the data" why="The Projects page said 'No projects yet' while the database held two projects and the API returned both. The page was wrong and the data was right." tradeoff="It would be simpler to write 'all checks passed.' The first HTTP check failed on an overly broad assertion; the failure was preserved, not relabeled, and a narrower semantic check passed instead.">
+The verified cause: Next.js had statically prerendered /projects at build time, so production kept serving the build-time snapshot instead of querying the catalog on each request. The prerender manifest listed /projects as static with no revalidation window, and an async server component with a direct SQLite query was not, by itself, enough to prevent prerendering. Nothing was wrong with the records; what was stale was the generated page output.
+
+The fix was one line per page: `export const dynamic = "force-dynamic";` on four database-backed pages (/projects, /inbox, /apps/new, /artifacts/new), making them render at request time. No query, schema, or data handling changed. The dashboard and /apps already rendered dynamically, and a route audit confirmed the remaining database-backed pages were already dynamic.
+
+Validation: 11 focused tests across three files, independently executed, covering the rendering declarations and actual SQLite-backed page behavior. The production build classified all four routes as dynamic, with none left in the static prerender entries. Post-build HTTP checks showed newly created projects rendering on all four pages. On the live deployment: HTTP 200 across the routes, catalog unchanged, backup hash unchanged. Real Chrome acceptance passed with both projects visible and the creation-form selectors working.
+</Decision>
+
+## Shipped
+
+The polished build is deployed and accepted: the approved visual pass, the Quick Launch fix, the dashboard feedback changes, and the rendering fix above, all serving in production with the live catalog preserved. Preflight, rehearsal, data-equality, and acceptance checks all passed, and the deployment receipt is retained.
+
+## What the evidence says
+
+<Verification>
+  <Evidence title="Validation run" status="unconfirmed">The repo's Windows validation docs record 715 passing assertions across 62 files. Checked against the private repository during drafting; pending owner review.</Evidence>
+  <Evidence title="Seed data counts" status="unconfirmed">3 projects, 4 apps, 18 artifact titles (12 published, 6 inbox) confirmed in the demo seed source during drafting; pending owner review.</Evidence>
+  <Evidence title="Quick Launch behavior" status="unconfirmed">Open app launches the saved URL in a new tab with rel="noopener noreferrer"; View details stays in the current tab. Confirmed in the Quick Launch component on main during drafting; pending owner review.</Evidence>
+  <Evidence title="Stale Projects page fix" status="unconfirmed">Root cause verified as build-time prerendering of /projects (static in the prerender manifest, no revalidation); the fix was force-dynamic on four database-backed pages with no query, schema, or data changes; validation covered 11 focused tests, production build route classification, HTTP checks, and real Chrome acceptance. Per the chief of staff's verified account; pending owner review.</Evidence>
+  <Evidence title="Deployment" status="unconfirmed">Polished build deployed and accepted; production serving with the live catalog preserved; preflight, rehearsal, data-equality, and acceptance checks passed. Per the retained deployment record; pending owner review.</Evidence>
+</Verification>
+
+Remaining work, honestly stated: the portfolio packaging. There is no architecture diagram yet, no narrated demo, and the repository is still private. The product is ahead of its explanation, which is why this case study exists.
+
+## What I learned
+
+<ResultsOrLearnings>
+Hermes Hub is evidence of a specific skill: directing agents the way you would direct engineers. I set the charter (private, local-first, catalog everything), held the privacy boundaries, reviewed the merges, and caught the headline bug by testing the build. When the Projects page went stale, I held the incident to the same standard: verified cause, minimal fix, honest validation record. The agents wrote the code. The judgment was mine.
+
+The honest limits: the repo still needs its public debut, and this study still needs a real cover image before it can leave draft status.
+
+That is the portfolio story. Not "I built a dashboard." It is "I ran the team that built the dashboard, and here is the proof I knew what I was doing."
+</ResultsOrLearnings>
