@@ -1,0 +1,98 @@
+---
+slug: jev-screening-evaluation
+project: Jev Job Screening Evaluation
+title: I built the test before the automation
+summary: "I got early access to Jev, a job-screening AI. Before letting it touch my job search, I ran it through a blind evaluation against my career copilot: 65 postings, sealed verdicts, and an evidence review of every disagreement. It was safe, but not ready."
+draft: false
+evidenceReviewed: true
+featured: false
+order: 3
+role: Job seeker and evaluator
+stack:
+  - TypeSafe Jev (early access)
+  - Google Sheets
+  - Python
+timeline: September 2026
+projectStatus: Evaluation complete; not deployed
+scope: Blind shadow evaluation of 65 job postings across two batches.
+cover: /case-studies/jev-screening-evaluation/cover.png
+coverAlt: 'Cover of the Jev Phase A final report. Headline "Jev Phase A: Safe, but Not Promotable", the verdict that evidence was insufficient for promotion, and four metrics: 65 unique postings adjudicated, 0 false negatives, 13 of 13 rejects confirmed correct, 13 of 20 natural rejects required.'
+coverWidth: 1240
+coverHeight: 1280
+coverCaption: 'The Phase A final report cover: the verdict and the numbers at a glance.'
+---
+
+## Where I started
+
+I got early access to Jev, a screening AI from TypeSafe. The pitch is simple: point it at job postings and it sorts them into strong fit, weak fit, or reject, with a confidence score attached.
+
+I was tempted to plug it into my job search right away. I am looking for my next role and anything that cuts screening workload helps. But a screener that quietly discards the right opportunity is worse than no screener at all. So I decided to test it first.
+
+My Hermes career copilot already evaluates postings for my tracker. That gave me a reference evaluator and a way to run the whole test blind.
+
+<Callout title="What this case study is">
+This is an evaluation story, not a launch story. Jev did not earn a role in my job search. The interesting part is how the test was built and what it caught.
+</Callout>
+
+## How the test was designed
+
+The question was not whether Jev agrees with my copilot. Agreement is not correctness. The question was whether Jev adds safe, net value beyond plain eligibility rules: can it save evaluation effort without screening out anything worth my attention?
+
+<WorkflowSteps>
+  <Step title="Collect fixed batches">Postings came from LinkedIn Jobs. No seniority, pay, or remote filters, so the sample included roles with restrictions and unclear eligibility.</Step>
+  <Step title="Evaluate blind">The career copilot assessed every posting first, with Jev's verdicts hidden. Jev ran only after the copilot's judgments were locked, and its verdicts were written to a sealed tab.</Step>
+  <Step title="Adjudicate disagreements">Every disagreement was decided against the posting evidence and my corrected profile, not against the copilot. The copilot is a reference, not ground truth.</Step>
+  <Step title="Apply the promotion bar">The protocol required at least 20 natural Jev rejects to judge the reject lane. Fewer than that meant insufficient evidence, not a pass.</Step>
+</WorkflowSteps>
+
+Two batches ran under this protocol: 50 collected postings (39 unique after dedupe) and an extension batch of 30 (26 unique), authorized when the first batch did not produce enough natural rejects.
+
+## What I found
+
+Across 65 unique postings, Jev rejected nothing worthwhile. All 13 of its unique rejects were adjudicated non-worthwhile, and it produced zero false negatives. That is the safety result, and it held across both batches.
+
+The value result is thinner. Of 65 postings, the two systems agreed outright on 43: 35 passes and 8 rejects. The copilot was right on 16 disagreements, Jev on 6. Five of Jev's six were cases where it caught hard blockers the copilot missed: in-person requirements, security clearances, an on-site mandate. The sixth was the most interesting single result of the whole test. The copilot rejected a Developer Community Manager role at Cognition on a title heuristic, and Jev kept it in weak fit. The posting asked for 2+ years of DevRel or community experience on an AI agents team, and it was relevant to my profile. That was the copilot's only false negative, and Jev preserved it.
+
+<ProductImage src="/case-studies/jev-screening-evaluation/adjudication-breakdown.png" alt="Stacked bar chart of adjudicated outcomes: batch 1 with 13 agree-pass, 8 agree-reject, 12 copilot-correct, 6 Jev-correct; extension with 22 agree-pass and 4 copilot-correct." caption="Adjudicated outcomes for the 65 unique postings, by batch. Every disagreement was decided against posting evidence, not against the copilot." width="1820" height="598" />
+
+Then the weaknesses. Both systems underweighted geographic eligibility. Six roles with strict non-US physical requirements were passed by both evaluators and only caught at adjudication. The earlier pilot had already flagged this pattern once, with a London-based role Jev rated a strong fit. It reproduced.
+
+Jev also issued only two strong fit calls across Phase A, both at low confidence (0.53 and 0.29). There is no basis here for letting Jev promote anything on its own.
+
+## Decisions and tradeoffs
+
+<Decision title="Blind before anything" why="If the copilot had seen Jev's verdicts, its judgments would have anchored on them and the comparison would be worthless. Locking the copilot's assessments first kept the two evaluations independent." tradeoff="Blind evaluation doubles the work. Every posting gets two full assessments plus adjudication of the disagreements.">
+The blind held for both batches. The copilot's columns were locked before Jev ran, and Jev's verdicts stayed sealed until the copilot's work was done.
+</Decision>
+
+<Decision title="A promotion bar with a real number" why="A vague sense of safety is how tools get deployed on vibes. Requiring 20 natural rejects before judging the reject lane forced a concrete evidence threshold, agreed in advance." tradeoff="The extension batch still fell short at 13. Running more batches to chase the number would have cost more adjudication effort for a tool that was already showing thin value.">
+Phase A closed with insufficient evidence for promotion. No live routing, quarantine, holds, or automated triage were approved.
+</Decision>
+
+<ProductImage src="/case-studies/jev-screening-evaluation/reject-gate.png" alt="Bar showing 13 correct rejects and 0 false negatives, falling short of the dashed protocol bar at 20 natural rejects." caption="The reject lane was perfect but too small: 13 natural rejects against the protocol's bar of 20. Phase A closed with insufficient evidence for promotion." width="1749" height="609" />
+
+<Decision title="Disagreements decided by evidence, not by the copilot" why="The copilot misread my profile in places, including a rationale claiming I was explicitly avoiding senior roles. That is not in my profile. Adjudicating against posting evidence and the corrected profile kept one system's mistakes from becoming the verdict." tradeoff="Adjudication is manual and judgment-heavy. It does not scale the way an automated metric would.">
+The misstatement was recorded in the adjudication notes, and outcomes were decided on actual posting requirements.
+</Decision>
+
+<Decision title="No live routing during the test" why="A shadow test that quietly affects the real tracker is not a shadow test. Nothing Jev produced entered my real job tracker or changed any queue order during Phase A." tradeoff="The test measured evaluation behavior, not live workflow savings. The effort-saved question is still estimated, not observed.">
+This was a condition of the experiment from the start, and it held.
+</Decision>
+
+## What the evidence says
+
+<Verification>
+  <Evidence title="Phase A adjudication record" status="verified" href="https://docs.google.com/spreadsheets/d/10XKqLh1JC9KluBKp9i7EK62mMEGq6534spjAhMpHkqc/edit" result="65 unique postings adjudicated: 35 agree-pass, 8 agree-reject, 16 copilot-correct, 6 Jev-correct; 30 worthwhile, 35 not.">The sheet holds the collected postings, the sealed Jev verdicts, the locked copilot assessments, the adjudicated outcomes, and a version log of the protocol decisions. The 20-reject bar and the insufficient-evidence verdict are recorded there.</Evidence>
+  <Evidence title="Phase A final report" status="verified" href="/case-studies/jev-screening-evaluation/jev-phase-a-report.pdf" result="Numbers checked against the experiment sheet 2026-09-18: 80 rows, 65 adjudicated (35 agree-pass, 8 agree-reject, 16 copilot-correct, 6 Jev-correct), worthwhile 30 yes / 35 no, 13 Jev rejects all non-worthwhile with 0 false negatives, the Cognition save preserved, gate closed with insufficient evidence for promotion.">The full 8-page report with the combined metrics and the gate decision. Its numbers were checked against the experiment sheet.</Evidence>
+  <Evidence title="Live workflow savings" status="not-run">Phase A was blind shadow only. No live routing, quarantine, or automated triage was tested, so effort saved in a real workflow remains estimated.</Evidence>
+</Verification>
+
+## What I learned
+
+<ResultsOrLearnings>
+The test did its job. It told me not to ship. Jev proved safe on the reject lane across 65 postings, which is genuinely useful information, but safety is not the same as value. Six correct disagreements in 65 postings, one of them a real save, does not clear the bar for automation.
+
+The most durable result is the method. A blind protocol with a pre-registered evidence bar caught weaknesses in both systems: the copilot's title heuristic, the profile misstatement in its rationales, and the geographic eligibility gap they shared. If I test another tool, this is the rig I will reuse, with geography extraction fixed first.
+
+For now, the career copilot keeps doing the evaluations and Jev stays a manual aid I consult, not a filter I trust.
+</ResultsOrLearnings>
