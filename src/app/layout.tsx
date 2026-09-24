@@ -18,7 +18,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return <html lang="en"><body>
     <a className="skip-link" href="#main">Skip to content</a>
     <div className="site-shell">
-      <header className="site-header"><Link className="wordmark" href="/" aria-label="Nikema home">nikema<span className="wordmark-slash">/</span><span className="wordmark-note">works in progress</span></Link><nav aria-label="Main navigation"><Link href="/#work">Work</Link><a href="https://nikema.dev">Writing <span aria-hidden="true">↗</span></a><Link href="/#approach">Approach</Link></nav></header>
+      <header className="site-header"><Link className="wordmark" href="/" aria-label="Nikema home">nikema<span className="wordmark-slash">/</span><span className="wordmark-note">works in progress</span></Link><nav aria-label="Main navigation"><Link href="/#work">Work</Link><Link href="/gallery">Gallery</Link><a href="https://nikema.dev">Writing <span aria-hidden="true">↗</span></a><Link href="/#approach">Approach</Link></nav></header>
       {children}
       <footer className="site-footer"><Link href="/">nikema / field notes</Link><span>Built with curiosity. Always learning.</span><a href="https://nikema.dev">More writing ↗</a></footer>
     </div>
