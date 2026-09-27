@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>
+  return <html lang="en" data-scroll-behavior="smooth"><body>
     <a className="skip-link" href="#main">Skip to content</a>
     <div className="site-shell">
       <header className="site-header"><Link className="wordmark" href="/" aria-label="Nikema home">nikema<span className="wordmark-slash">/</span><span className="wordmark-note">works in progress</span></Link><nav aria-label="Main navigation"><Link href="/#work">Work</Link><Link href="/gallery">Gallery</Link><a href="https://nikema.dev">Writing <span aria-hidden="true">↗</span></a><Link href="/#approach">Approach</Link></nav></header>
