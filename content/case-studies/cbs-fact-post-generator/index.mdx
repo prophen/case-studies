@@ -1,0 +1,104 @@
+---
+slug: cbs-fact-post-generator
+project: CBS Fact Post Generator
+title: Exa gives you evidence, not verdicts
+summary: A single-user tool that turns California Black history topics into verified, export-ready Facebook posts. OpenAI proposes claims, Exa retrieves sources, and a separate audit step judges each part of a claim against the excerpts before anything is composed.
+draft: true
+order: 4
+stack:
+  - Next.js
+  - React
+  - TypeScript
+  - OpenAI
+  - Exa
+  - Supabase
+timeline: September 2026
+scope: Claim proposals, Exa verification with evidence audit, caption composition, 1080x1080 image export, saved history. Single user.
+projectStatus: Built and tested locally
+---
+
+## Where I started
+
+I run California Black Stories, a content project about Black history in California. Accuracy is the whole brand. One wrong date in a caption and the comments fill up with corrections, so every post gets reviewed before it goes anywhere.
+
+I also needed a demo for the Exa Developer Advocate application. I decided to build something I would actually use: a tool that proposes historical claims, checks them against real sources, and produces a finished, export-ready post. A toy demo would not have taught me anything. A real tool would.
+
+<Callout title="About this account">
+This study is a draft. The technical account comes from building and testing the app on September 26, 2026. The app's repository is private, so there are no source links yet. Claims about behavior describe what I observed in local testing that day.
+</Callout>
+
+## How I built it
+
+The app is a Next.js project with one API route per step. OpenAI proposes historical claims from topics I enter, automatically scoping each one to California. Exa retrieves sources with highlighted excerpts for the claim I pick. Then, instead of trusting those sources, a separate audit step has the model judge each part of the claim against the excerpts as supported, unsupported, or contradicted.
+
+From there I compose the post: an editable fact, an AI-generated caption with exactly five hashtags, a call to action, and a live 1080 by 1080 preview I can download as a PNG. Finished facts save to a history with their sources and timestamps, and new claims get cross-checked against that history.
+
+## Following the workflow
+
+A claim moves through three stages, with me deciding when it moves forward.
+
+<WorkflowSteps>
+  <Step title="Propose claim ideas">I enter topics. The app asks OpenAI for historical claims, appending "in California" to any topic that does not already mention it. I pick one to work with.</Step>
+  <Step title="Verify against Exa evidence">Exa returns sources with highlighted excerpts. The audit labels each part of the claim supported, unsupported, or contradicted, and the cross-check flags overlap with facts I have already saved. If the audit is mixed or contradicted, I can apply a suggested correction that rewrites the fact from the findings.</Step>
+  <Step title="Compose and export">I edit the fact, generate or write the caption and call to action, and download the 1080 by 1080 image. Saving stores the fact, caption, sources, and timestamp to history. Nothing posts automatically.</Step>
+</WorkflowSteps>
+
+## Under the surface
+
+The page is a single React component. Each step calls its own Next.js API route, and the routes call OpenAI or Exa. On my machine the routes shell out to vault-backed skill CLIs; on a deploy they would call the APIs directly with environment variables. History reads and writes go through one shared store module: Supabase when the project URL and service key are set, a local JSON file when they are not.
+
+Two things sit in front of everything. A middleware checks a password before serving any page or API route, and each AI-backed route rate-limits requests per IP. The image export runs in the browser with html2canvas, scaling the rendered card up to exactly 1080 by 1080.
+
+<ArchitectureDiagram src="/case-studies/cbs-fact-post-generator/architecture.svg" alt="Architecture diagram showing the browser UI calling Next.js API routes through a password and rate-limit middleware, with routes fanning out to OpenAI, Exa, and the history store." caption="How the pieces connect. The middleware and rate limits exist because a public URL would otherwise let anyone spend the API keys." width="1000" height="560" description="The browser page calls seven Next.js API routes. Middleware applies an APP_PASSWORD login gate and per-IP rate limits before any route runs. The claims, audit, fix, and caption routes call OpenAI; the verify route calls Exa for sources with highlighted excerpts; the history and crosscheck routes go through a shared store that uses the Supabase cbs_facts table when environment variables are set and falls back to a local JSON file. Image export happens client-side with html2canvas at a computed scale for a 1080 by 1080 PNG." />
+
+## Decisions visible in the code
+
+<Decision title="The audit sits between Exa and the user" why="On the first day of testing, with an empty history, I ran the claim that the Pacific Appeal, founded in 1862 in San Francisco, was the first Black newspaper in California. Exa returned credible sources, including the Library of Congress. The audit flagged 'first Black newspaper in California' as contradicted while supporting the rest: the actual first was the Mirror of the Times, in 1856. Without the audit I would have posted something wrong on day one." tradeoff="Every verification costs an extra model call, adding latency and spend. The audit is also only as good as the excerpts Exa returns; thin results mean thin judgments.">
+The audit prompt asks for a verdict of supported, mixed, or contradicted plus per-part findings with a one-sentence detail each. A contradicted part forces the overall verdict to contradicted. The correction prompt then rewrites the fact from those findings, dropping the false language instead of softening it.
+</Decision>
+
+<Decision title="Supabase for history, file fallback for local work" why="A JSON file loses data on serverless deploys, and this app was headed for Vercel. A shared store module uses Supabase when the URL and service key exist and falls back to the local file otherwise, so local development needs no setup." tradeoff="Two backends means two behaviors. If the environment variables are missing on a deploy, history silently stops persisting instead of failing loudly.">
+The table is a single cbs_facts table created by a checked-in SQL file. The cross-check reads through the same store, so it works against either backend.
+</Decision>
+
+<Decision title="A password gate instead of user accounts" why="This is a single-user tool. Full authentication with per-user data would have been weeks of work for no benefit. One password in an environment variable, checked in middleware, keeps the whole app and every API route private." tradeoff="There is one shared secret and no concept of users. If collaborators ever need their own histories, this gets replaced, not extended.">
+The gate uses HTTP Basic Auth, so the browser shows its own login prompt. Leaving the variable unset disables the gate for local development.
+</Decision>
+
+<Decision title="Rate limits as cost protection" why="A public URL plus my API keys means anyone can spend my OpenAI and Exa credits. The password gate is the real defense; per-IP rate limits on the six AI routes are a second layer against accidental blowups." tradeoff="The limiter is in-memory per server instance, so on serverless it is approximate rather than exact. It would not stop a determined attacker, only accidents.">
+Verify, claims, and audit allow 20 requests per minute per IP; caption, fix, and crosscheck allow 30. Past the cap the route returns a 429.
+</Decision>
+
+## What testing changed
+
+The app was tested the same day it was built, and testing drove most of the design. The iteration trail:
+
+The Pacific Appeal catch created the audit step. The first version trusted Exa results at face value; the contradicted "first" proved that was not safe, so evidence now gets judged part by part before anything is composed.
+
+Composing kept showing stale content. Verifying a new claim left the previous caption in place, so Verify now clears it. Applying a correction did not update the image text, so the correction rewrites the fact field and the live preview follows it. Captions generate from the corrected fact, not the original claim.
+
+State resets became a rule. Selecting a new claim clears the sources, conflict banner, and evidence check while keeping the claim in the fact field. Generating claims clears the compose fields. Reusing a fact from history clears the previous evidence check. Each action now starts from a clean slate.
+
+The five hashtags are enforced in code, not wished for. The model returns hashtag names as a JSON array, and a helper strips stray characters, pads with defaults, and slices to exactly five before appending them to the caption.
+
+The public deploy got hardened before it existed. Supabase replaced the JSON file as the history backend, the password gate went in front of everything, and rate limits went on the AI routes, all before the app had a public URL.
+
+Mobile got a real pass. The two-column layout collapses under 860 pixels, the preview card scales with container query units while the PNG export stays 1080 by 1080, form fields use 16 pixel type so iOS does not zoom on focus, and the app got a viewport tag and a favicon.
+
+## What the evidence says
+
+The account above describes local testing on September 26, 2026. I have not yet done an independent evidence review pass for this writeup, and the repository is private.
+
+<Verification>
+  <Evidence title="Claim to correction flow" status="unconfirmed">In local testing, the Pacific Appeal claim returned a contradicted verdict on "first Black newspaper in California" with the remaining parts supported, the suggested correction removed the false "first" language, the caption generated from the corrected fact with five hashtags, and the downloaded PNG was 1080 by 1080. These are my test observations, not an independent review.</Evidence>
+  <Evidence title="Supabase round trip" status="not-run">Save, list, delete, and cross-check against a real Supabase project have not been tested. No Supabase project has been created yet.</Evidence>
+  <Evidence title="Deployed behavior" status="not-run">The Vercel deployment with environment variables set, including the password gate and rate limits under real traffic, has not been verified end to end.</Evidence>
+</Verification>
+
+## What this version represents
+
+<ResultsOrLearnings>
+I set out to build a demo for a job application and ended up with a tool I actually use, because the testing caught a real failure on day one. The lesson I keep coming back to: the retrieval is the easy part. Exa gives you evidence, not verdicts. The judgment layer on top of it is the whole product.
+
+What remains: record the demo video, create the Supabase project and verify the round trip, and deploy. The evidence section above is honest about what has not been checked yet, and this study stays a draft until that changes.
+</ResultsOrLearnings>
