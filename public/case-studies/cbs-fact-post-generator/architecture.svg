@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#8a8a8a"/>
+    </marker>
+  </defs>
+
+  <!-- Browser -->
+  <rect x="30" y="200" width="200" height="160" rx="10" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="30" y="200" width="200" height="34" rx="10" fill="#1a1a1a"/>
+  <rect x="30" y="222" width="200" height="12" fill="#1a1a1a"/>
+  <text x="130" y="222" text-anchor="middle" fill="#d4af37" font-size="14" font-weight="700">Browser</text>
+  <text x="130" y="258" text-anchor="middle" fill="#333" font-size="11">page.tsx: propose,</text>
+  <text x="130" y="274" text-anchor="middle" fill="#333" font-size="11">verify, compose,</text>
+  <text x="130" y="290" text-anchor="middle" fill="#333" font-size="11">history UI</text>
+  <text x="130" y="312" text-anchor="middle" fill="#333" font-size="11">html2canvas PNG</text>
+  <text x="130" y="328" text-anchor="middle" fill="#333" font-size="11">export (1080x1080)</text>
+
+  <!-- Middleware -->
+  <rect x="280" y="200" width="180" height="160" rx="10" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="280" y="200" width="180" height="34" rx="10" fill="#1a1a1a"/>
+  <rect x="280" y="222" width="180" height="12" fill="#1a1a1a"/>
+  <text x="370" y="222" text-anchor="middle" fill="#d4af37" font-size="14" font-weight="700">Middleware</text>
+  <text x="370" y="258" text-anchor="middle" fill="#333" font-size="11">APP_PASSWORD</text>
+  <text x="370" y="274" text-anchor="middle" fill="#333" font-size="11">login gate</text>
+  <text x="370" y="296" text-anchor="middle" fill="#333" font-size="11">per-IP rate limits</text>
+  <text x="370" y="312" text-anchor="middle" fill="#333" font-size="11">on AI routes</text>
+
+  <!-- API routes -->
+  <rect x="510" y="60" width="200" height="440" rx="10" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="510" y="60" width="200" height="34" rx="10" fill="#1a1a1a"/>
+  <rect x="510" y="82" width="200" height="12" fill="#1a1a1a"/>
+  <text x="610" y="82" text-anchor="middle" fill="#d4af37" font-size="14" font-weight="700">API routes</text>
+  <text x="610" y="120" text-anchor="middle" fill="#333" font-size="11">/api/claims</text>
+  <text x="610" y="140" text-anchor="middle" fill="#333" font-size="11">/api/verify</text>
+  <text x="610" y="160" text-anchor="middle" fill="#333" font-size="11">/api/audit</text>
+  <text x="610" y="180" text-anchor="middle" fill="#333" font-size="11">/api/fix</text>
+  <text x="610" y="200" text-anchor="middle" fill="#333" font-size="11">/api/caption</text>
+  <text x="610" y="230" text-anchor="middle" fill="#333" font-size="11">/api/crosscheck</text>
+  <text x="610" y="250" text-anchor="middle" fill="#333" font-size="11">/api/history</text>
+  <text x="610" y="290" text-anchor="middle" fill="#666" font-size="11">OpenAI calls run</text>
+  <text x="610" y="306" text-anchor="middle" fill="#666" font-size="11">through vault-backed</text>
+  <text x="610" y="322" text-anchor="middle" fill="#666" font-size="11">skill CLIs locally,</text>
+  <text x="610" y="338" text-anchor="middle" fill="#666" font-size="11">direct API on deploy</text>
+  <text x="610" y="380" text-anchor="middle" fill="#666" font-size="11">history via shared</text>
+  <text x="610" y="396" text-anchor="middle" fill="#666" font-size="11">store module</text>
+  <text x="610" y="440" text-anchor="middle" fill="#666" font-size="11">nothing posts</text>
+  <text x="610" y="456" text-anchor="middle" fill="#666" font-size="11">automatically</text>
+
+  <!-- OpenAI -->
+  <rect x="760" y="60" width="210" height="120" rx="10" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="760" y="60" width="210" height="34" rx="10" fill="#1a1a1a"/>
+  <rect x="760" y="82" width="210" height="12" fill="#1a1a1a"/>
+  <text x="865" y="82" text-anchor="middle" fill="#d4af37" font-size="14" font-weight="700">OpenAI</text>
+  <text x="865" y="118" text-anchor="middle" fill="#333" font-size="11">claim proposals</text>
+  <text x="865" y="134" text-anchor="middle" fill="#333" font-size="11">evidence audit</text>
+  <text x="865" y="150" text-anchor="middle" fill="#333" font-size="11">corrections, captions</text>
+
+  <!-- Exa -->
+  <rect x="760" y="210" width="210" height="120" rx="10" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="760" y="210" width="210" height="34" rx="10" fill="#1a1a1a"/>
+  <rect x="760" y="232" width="210" height="12" fill="#1a1a1a"/>
+  <text x="865" y="232" text-anchor="middle" fill="#d4af37" font-size="14" font-weight="700">Exa</text>
+  <text x="865" y="268" text-anchor="middle" fill="#333" font-size="11">search results with</text>
+  <text x="865" y="284" text-anchor="middle" fill="#333" font-size="11">highlighted excerpts</text>
+
+  <!-- History store -->
+  <rect x="760" y="360" width="210" height="140" rx="10" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/>
+  <rect x="760" y="360" width="210" height="34" rx="10" fill="#1a1a1a"/>
+  <rect x="760" y="382" width="210" height="12" fill="#1a1a1a"/>
+  <text x="865" y="382" text-anchor="middle" fill="#d4af37" font-size="14" font-weight="700">History store</text>
+  <text x="865" y="418" text-anchor="middle" fill="#333" font-size="11">Supabase cbs_facts</text>
+  <text x="865" y="434" text-anchor="middle" fill="#333" font-size="11">when env vars exist,</text>
+  <text x="865" y="450" text-anchor="middle" fill="#333" font-size="11">data/history.json</text>
+  <text x="865" y="466" text-anchor="middle" fill="#333" font-size="11">fallback locally</text>
+
+  <!-- Arrows -->
+  <line x1="230" y1="280" x2="272" y2="280" stroke="#8a8a8a" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="460" y1="280" x2="502" y2="280" stroke="#8a8a8a" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="710" y1="120" x2="752" y2="120" stroke="#8a8a8a" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="710" y1="270" x2="752" y2="270" stroke="#8a8a8a" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="710" y1="430" x2="752" y2="430" stroke="#8a8a8a" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>
