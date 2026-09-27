@@ -61,7 +61,7 @@ The audit prompt asks for a verdict of supported, mixed, or contradicted plus pe
 The table is a single cbs_facts table created by a checked-in SQL file. The cross-check reads through the same store, so it works against either backend.
 </Decision>
 
-<Decision title="A password gate instead of user accounts" why="This is a single-user tool. Full authentication with per-user data would have been weeks of work for no benefit. One password in an environment variable, checked in middleware, keeps the whole app and every API route private." tradeoff="There is one shared secret and no concept of users. If collaborators ever need their own histories, this gets replaced, not extended.">
+<Decision title="A password gate instead of user accounts" why="This is a single-user tool. One password in an environment variable, checked in middleware, keeps the whole app and every API route private." tradeoff="There is one shared secret and no concept of users. If collaborators ever need their own histories, this gets replaced, not extended.">
 The gate uses HTTP Basic Auth, so the browser shows its own login prompt. Leaving the variable unset disables the gate for local development.
 </Decision>
 
