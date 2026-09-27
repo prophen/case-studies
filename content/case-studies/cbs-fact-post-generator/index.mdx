@@ -5,6 +5,7 @@ title: Exa gives you evidence, not verdicts
 summary: A single-user tool that turns California Black history topics into verified, export-ready Facebook posts. OpenAI proposes claims, Exa retrieves sources, and a separate audit step judges each part of a claim against the excerpts before anything is composed.
 draft: true
 order: 4
+evidenceReviewed: true
 stack:
   - Next.js
   - React
@@ -14,7 +15,9 @@ stack:
   - Supabase
 timeline: September 2026
 scope: Claim proposals, Exa verification with evidence audit, caption composition, 1080x1080 image export, saved history. Single user.
-projectStatus: Built and tested locally
+projectStatus: Deployed
+links:
+  live: https://cbs-post-generator.vercel.app/
 ---
 
 ## Where I started
@@ -24,7 +27,7 @@ I run California Black Stories, a content project about Black history in Califor
 I also needed a demo for the Exa Developer Advocate application. I decided to build something I would actually use: a tool that proposes historical claims, checks them against real sources, and produces a finished, export-ready post. A toy demo would not have taught me anything. A real tool would.
 
 <Callout title="About this account">
-This study is a draft. The technical account comes from building and testing the app on September 26, 2026. The app's repository is private, so there are no source links yet. Claims about behavior describe what I observed in local testing that day.
+This study is a draft. The technical account comes from building the app on September 26, 2026 and verifying it against the deployed URL the same day. The app's repository is private, so there are no source links yet.
 </Callout>
 
 ## How I built it
@@ -87,12 +90,12 @@ Mobile got a real pass. The two-column layout collapses under 860 pixels, the pr
 
 ## What the evidence says
 
-The account above describes local testing on September 26, 2026. I have not yet done an independent evidence review pass for this writeup, and the repository is private.
+The account above was verified against the deployed app on September 26, 2026.
 
 <Verification>
-  <Evidence title="Claim to correction flow" status="unconfirmed">In local testing, the Pacific Appeal claim returned a contradicted verdict on "first Black newspaper in California" with the remaining parts supported, the suggested correction removed the false "first" language, the caption generated from the corrected fact with five hashtags, and the downloaded PNG was 1080 by 1080. These are my test observations, not an independent review.</Evidence>
-  <Evidence title="Supabase round trip" status="not-run">Save, list, delete, and cross-check against a real Supabase project have not been tested. No Supabase project has been created yet.</Evidence>
-  <Evidence title="Deployed behavior" status="not-run">The Vercel deployment with environment variables set, including the password gate and rate limits under real traffic, has not been verified end to end.</Evidence>
+  <Evidence title="Claim to correction flow" status="verified" href="https://cbs-post-generator.vercel.app/" result="The Pacific Appeal 'first' claim returned contradicted on the 'first' part with the rest supported. Applying the suggested correction rewrote the fact and the live preview. The caption generated from the corrected fact with exactly five hashtags, and the downloaded PNG was 1080 by 1080.">Cross-checking the same claim against a saved Mirror of the Times fact correctly flagged the conflict, while a saved California Eagle fact correctly produced no conflict.</Evidence>
+  <Evidence title="Supabase round trip" status="verified" href="https://cbs-post-generator.vercel.app/" result="Save, list, and delete all work from the deployed URL against the Supabase backend.">The cross-check reads through the same history store, so it operates against Supabase on the deploy.</Evidence>
+  <Evidence title="Deployed behavior" status="verified" href="https://cbs-post-generator.vercel.app/" result="The password gate prompts for credentials before serving any page or API route. Verify, caption generation, image download, and history all work from the public URL.">Rate limiting has not been exercised under real abusive traffic; it stands as a second layer behind the password gate.</Evidence>
 </Verification>
 
 ## What this version represents
@@ -100,5 +103,5 @@ The account above describes local testing on September 26, 2026. I have not yet 
 <ResultsOrLearnings>
 I set out to build a demo for a job application and ended up with a tool I actually use, because the testing caught a real failure on day one. The lesson I keep coming back to: the retrieval is the easy part. Exa gives you evidence, not verdicts. The judgment layer on top of it is the whole product.
 
-What remains: record the demo video, create the Supabase project and verify the round trip, and deploy. The evidence section above is honest about what has not been checked yet, and this study stays a draft until that changes.
+What remains before this study leaves draft: record the demo video, add a cover screenshot, and do a final editorial pass.
 </ResultsOrLearnings>
