@@ -51,6 +51,8 @@ A claim moves through three stages, with me deciding when it moves forward.
   <Step title="Compose and export">I edit the fact, generate or write the caption and call to action, and download the 1080 by 1080 image. Saving stores the fact, caption, sources, and timestamp to history. Nothing posts automatically.</Step>
 </WorkflowSteps>
 
+<VideoEmbed videoId="NZQlbT3v-ag" caption="Watch the full workflow: proposing a claim, catching the false 'first' with the evidence audit, composing the post, and exporting the 1080x1080 image." />
+
 ## Under the surface
 
 The page is a single React component. Each step calls its own Next.js API route, and the routes call OpenAI or Exa. On my machine the routes shell out to vault-backed skill CLIs; on a deploy they would call the APIs directly with environment variables. History reads and writes go through one shared store module: Supabase when the project URL and service key are set, a local JSON file when they are not.
